@@ -374,6 +374,9 @@ const CONFIG = {
   EVENT_START: "2026-10-28T18:30:00+08:00",
   EVENT_END:   "2026-10-28T22:00:00+08:00",
   VENUE: "DoubleTree by Hilton Johor Bahru",
+  // The date clients see ("Kindly respond by …")
+  DISPLAY_DEADLINE: "2026-10-21T23:59:59+08:00",
+  // When the form actually stops accepting responses (late RSVPs are accepted quietly until then)
   RSVP_DEADLINE: "2026-10-27T23:59:59+08:00",
   // After this, the menu is confirmed with the hotel and late RSVPs are served the Chicken Roulade
   MENU_CUTOFF: "2026-10-22T00:00:00+08:00",
@@ -398,7 +401,7 @@ $('#openBtn').addEventListener('click', openInvite);
 if (location.hash === '#rsvp') openInvite();
 
 /* Deadline + countdown */
-$('#deadlineText').textContent = new Date(CONFIG.RSVP_DEADLINE)
+$('#deadlineText').textContent = new Date(CONFIG.DISPLAY_DEADLINE)
   .toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Kuala_Lumpur'});
 const start = new Date(CONFIG.EVENT_START).getTime();
 function tick(){
@@ -441,6 +444,7 @@ function applyMenuCutoff(){
     else r.closest('.choice').remove();
   });
   $('#finalNote').style.display = 'none';
+  $('#deadlineText').parentElement.style.display = 'none';   // don't show a date that has already passed
 }
 applyMenuCutoff();
 
