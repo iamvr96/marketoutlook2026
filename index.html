@@ -8,7 +8,7 @@
 <meta name="robots" content="noindex, nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@300;400;500;600&family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#040920; --midnight:#08113a; --navy:#0e1f5e; --royal:#16308f;
@@ -90,6 +90,21 @@
   .cd-sep{font-family:var(--serif);font-size:40px;color:var(--gold-lo);line-height:1;padding-top:4px}
 
   /* ---------- RSVP card ---------- */
+  /* The RSVP card uses Mulish throughout */
+  #rsvpCard{--serif:'Mulish',system-ui,sans-serif;--sans:'Mulish',system-ui,sans-serif;font-family:var(--sans)}
+  #rsvpCard .card-head h2{font-weight:300;font-size:36px;letter-spacing:.01em}
+  #rsvpCard .field input[type=text],#rsvpCard .field input[type=tel],#rsvpCard .field input[type=email],#rsvpCard .field select{font-size:17px;font-weight:400}
+  #rsvpCard .field input::placeholder{font-style:normal;font-weight:300}
+  #rsvpCard .field select:invalid{font-style:normal}
+  #rsvpCard .attend label b{font-style:normal;font-weight:600;font-size:18px;letter-spacing:.04em}
+  #rsvpCard .menu .num{font-style:normal;font-size:15px;font-weight:600}
+  #rsvpCard .menu .dish b{font-weight:600;font-size:17px;line-height:1.3}
+  #rsvpCard .menu .dish span{font-style:normal;font-size:13.5px;line-height:1.5;margin-top:5px}
+  #rsvpCard .menu .dish .veg{font-size:9px;margin-top:0}
+  #rsvpCard .final-note{font-style:normal;font-size:13px;margin:-2px 0 14px}
+  #rsvpCard .success h2{font-weight:300;font-size:36px;line-height:1.15}
+  #rsvpCard .success p.msg{font-size:16px;font-weight:400}
+  #rsvpCard .summary b{font-size:15px;font-weight:500}
   .card{position:relative;margin:72px auto 0;padding:58px clamp(22px,6vw,64px) 52px;
     background:linear-gradient(180deg,rgba(14,31,94,.55),rgba(4,9,32,.7));
     border:1px solid var(--line);box-shadow:0 40px 100px rgba(0,0,0,.45);backdrop-filter:blur(10px)}
@@ -141,7 +156,11 @@
   .menu .dish span{display:block;margin-top:4px;font-family:var(--serif);font-style:italic;font-size:16px;color:var(--muted)}
   .menu .dot{width:14px;height:14px;transform:rotate(45deg);border:1px solid var(--gold-lo);transition:.3s}
   .menu .choice input:checked+label .dot{background:var(--gold);border-color:var(--gold-hi);box-shadow:0 0 12px rgba(201,168,106,.6)}
-  .collapsible{overflow:hidden;max-height:800px;transition:max-height .6s ease,opacity .5s,margin .5s}
+  .row-title{display:grid;grid-template-columns:minmax(112px,150px) 1fr;gap:0 26px}
+  .other-title{margin-top:14px}
+  .other-title.hidden{display:none}
+  .final-note{margin:-4px 0 14px;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--gold-hi);opacity:.85}
+  .collapsible{overflow:hidden;max-height:1400px;transition:max-height .6s ease,opacity .5s,margin .5s}
   .collapsible.hidden{max-height:0;opacity:0;margin:0}
 
   .fineprint{margin-top:2px;font-size:9.5px;line-height:1.55;color:rgba(152,163,198,.6);text-align:center;letter-spacing:.01em}
@@ -249,10 +268,20 @@
           <p class="err">Kindly indicate your attendance.</p>
         </div>
 
-        <div class="field underline" id="g-name">
-          <label class="label" for="name">Full Name</label>
-          <input type="text" id="name" name="name" placeholder="As per NRIC / Passport" autocomplete="name">
-          <p class="err">Please enter your full name.</p>
+        <div class="row-title">
+          <div class="field underline" id="g-title">
+            <label class="label" for="title">Title</label>
+            <div class="select-wrap" style="position:relative">
+              <select id="title" name="title" class="title-select"></select>
+            </div>
+            <input type="text" id="titleOther" class="other-title hidden" placeholder="Your title" maxlength="30">
+            <p class="err">Please enter your title.</p>
+          </div>
+          <div class="field underline" id="g-name">
+            <label class="label" for="name">Full Name</label>
+            <input type="text" id="name" name="name" placeholder="As per NRIC / Passport" autocomplete="name">
+            <p class="err">Please enter your full name.</p>
+          </div>
         </div>
 
         <div class="row2">
@@ -284,6 +313,7 @@
 
         <div class="field collapsible" id="g-meal">
           <span class="label">The Main Course</span>
+          <p class="final-note">Kindly note that main course selections are final once confirmed and cannot be changed.</p>
           <div class="menu">
             <div class="choice"><input type="radio" id="m1" name="main_course" value="12-Hour Slow-Braised Beef Cheek"><label for="m1"><span class="num">i.</span><span class="dish"><b>12-Hour Slow-Braised Beef Cheek</b><span>Silky mashed potato, braised leek, honey-glazed carrot &amp; chasseur sauce</span></span><span class="dot"></span></label></div>
             <div class="choice"><input type="radio" id="m2" name="main_course" value="Fillet of Seabass"><label for="m2"><span class="num">ii.</span><span class="dish"><b>Fillet of Seabass</b><span>Baked seabass with saffron potato purée, buttered seasonal vegetables &amp; lemon cream sauce</span></span><span class="dot"></span></label></div>
@@ -291,6 +321,7 @@
           </div>
           <p class="err">Kindly select your main course.</p>
         </div>
+
 
 
         <button type="submit" class="btn" id="submitBtn"><span class="spinner"></span><span id="btnText">Confirm Attendance</span></button>
@@ -342,7 +373,7 @@ const CONFIG = {
   EVENT_START: "2026-10-28T18:30:00+08:00",
   EVENT_END:   "2026-10-28T22:00:00+08:00",
   VENUE: "DoubleTree by Hilton Johor Bahru",
-  RSVP_DEADLINE: "2026-10-23T23:59:59+08:00"
+  RSVP_DEADLINE: "2026-10-21T23:59:59+08:00"
 };
 /* ================================================================== */
 
@@ -375,13 +406,27 @@ function tick(){
 }
 tick(); setInterval(tick, 1000);
 
+/* Titles */
+const TITLES = ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof.", "Ir.", "Dato'", "Datin", "Datuk", "Dato' Sri", "Datin Sri",
+                "Datuk Seri", "Tan Sri", "Puan Sri"];
+document.querySelectorAll('.title-select').forEach(s => {
+  s.innerHTML = '<option value="">Select</option>' + TITLES.map(t => `<option>${t}</option>`).join('') + '<option value="__other">Other…</option>';
+});
+function bindOther(sel, input){
+  $(sel).addEventListener('change', () => { $(input).classList.toggle('hidden', $(sel).value !== '__other'); if ($(sel).value === '__other') $(input).focus(); });
+}
+bindOther('#title', '#titleOther');
+const titleOf = (sel, input) => $(sel).value === '__other' ? $(input).value.trim() : $(sel).value;
+const withTitle = (t, n) => (t ? t + ' ' : '') + n;
+
 /* Attendance → menu visibility */
 const meal = $('#g-meal');
 const attending = () => form.attendance.value === '' ? null : form.attendance.value === 'Attending';
-form.querySelectorAll('input[name=attendance]').forEach(r => r.addEventListener('change', () => {
+function syncSections(){
   meal.classList.toggle('hidden', attending() === false);
   $('#btnText').textContent = attending() === false ? 'Send Response' : 'Confirm Attendance';
-}));
+}
+form.querySelectorAll('input[name=attendance]').forEach(r => r.addEventListener('change', syncSections));
 
 /* Validation */
 const checks = {
@@ -390,6 +435,7 @@ const checks = {
   'g-phone':   () => /^\+?\d{9,13}$/.test(form.phone.value.replace(/[\s\-()]/g,'')),
   'g-email':   () => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim()),
   'g-branch':  () => form.branch.value !== '',
+  'g-title':   () => $('#title').value !== '__other' || $('#titleOther').value.trim().length >= 2,
   'g-meal':    () => attending() === false || form.main_course.value !== ''
 };
 form.addEventListener('input', e => {
@@ -416,6 +462,7 @@ form.addEventListener('submit', async e => {
 
   const going = attending();
   const rsvp = {
+    title: titleOf('#title', '#titleOther'),
     name: form.name.value.trim(),
     phone: form.phone.value.trim(),
     email: form.email.value.trim(),
@@ -432,8 +479,9 @@ form.addEventListener('submit', async e => {
 
   try {
     if (!fb) { const e = new Error('not connected'); e.code = 'not-connected'; throw e; }
-    const id = await fb.rsvpId(rsvp.email);
+    const id = await personId(rsvp.email, rsvp.name);
     await fb.setDoc(fb.doc(fb.db, 'rsvps', id), {
+      title: rsvp.title,
       name: rsvp.name,
       phone: rsvp.phone,
       email: rsvp.email.toLowerCase(),
@@ -450,9 +498,9 @@ form.addEventListener('submit', async e => {
         method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'},
         body: JSON.stringify({
           access_key: CONFIG.WEB3FORMS_ACCESS_KEY, botcheck: rsvp.botcheck,
-          subject: `RSVP ${going ? 'Attending' : 'Declined'} – ${rsvp.name} (${rsvp.branch})`,
+          subject: `RSVP ${going ? 'Attending' : 'Declined'} – ${withTitle(rsvp.title, rsvp.name)} (${rsvp.branch})`,
           from_name: 'MBSB Market Outlook RSVP',
-          Event: CONFIG.EVENT_NAME, name: rsvp.name, email: rsvp.email,
+          Event: CONFIG.EVENT_NAME, name: withTitle(rsvp.title, rsvp.name), email: rsvp.email,
           'Contact Number': rsvp.phone, Branch: rsvp.branch,
           Attendance: rsvp.attendance, 'Main Course': rsvp.main_course
         })
@@ -462,7 +510,7 @@ form.addEventListener('submit', async e => {
   } catch (err) {
     console.error(err);
     msg.textContent = err.code === 'permission-denied'
-      ? 'We already have a response for this email address. Kindly contact your Relationship Manager for any changes.'
+      ? 'We already have a response under this name and email address. Kindly contact your Relationship Manager for any changes.'
       : err.code === 'not-connected'
       ? 'RSVP is not connected yet (preview mode). It works once published with config.js filled in.'
       : 'We were unable to record your response. Kindly try again in a moment.';
@@ -471,16 +519,24 @@ form.addEventListener('submit', async e => {
   }
 });
 
+// One response per person: the record ID is a hash of email + name, so a couple can share an email
+async function personId(email, name){
+  const key = String(email).trim().toLowerCase() + '|' + String(name).trim().toLowerCase().replace(/\s+/g, ' ');
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 function showSuccess(d, going){
   $('#formView').style.display = 'none';
   $('#successTitle').textContent = going ? 'We look forward to welcoming you' : 'Thank you for letting us know';
   $('#successText').textContent = going
-    ? `Dear ${d.name}, your place at the evening has been reserved.`
-    : `Dear ${d.name}, you will be missed. We hope to welcome you at a future gathering.`;
+    ? `Dear ${withTitle(d.title, d.name)}, your place at the evening has been reserved.`
+    : `Dear ${withTitle(d.title, d.name)}, you will be missed. We hope to welcome you at a future gathering.`;
   const rows = [['Response', going ? 'Attending' : 'Unable to attend'], ['Branch', d.branch]];
-  if (going) rows.push(['Main Course', d.main_course], ['Date', 'Wed, 28 October 2026'], ['Time', '6.30 PM – 10.00 PM'], ['Venue', CONFIG.VENUE]);
+  if (going) rows.push(['Main Course', d.main_course]);
+  if (going) rows.push(['Date', 'Wed, 28 October 2026'], ['Time', '6.30 PM – 10.00 PM'], ['Venue', CONFIG.VENUE]);
   $('#summary').innerHTML = rows.map(([k,v]) => `<div><span>${k}</span><b>${esc(v)}</b></div>`).join('');
   $('#calBtn').style.display = going ? 'flex' : 'none';
   $('#successView').classList.add('show');
@@ -489,7 +545,8 @@ function showSuccess(d, going){
 }
 
 $('#againBtn').addEventListener('click', () => {
-  form.reset(); meal.classList.remove('hidden'); $('#btnText').textContent = 'Confirm Attendance';
+  form.reset(); $('#titleOther').classList.add('hidden'); meal.classList.remove('hidden');
+  $('#btnText').textContent = 'Confirm Attendance';
   $('#successView').classList.remove('show'); $('#formView').style.display = 'block';
 });
 

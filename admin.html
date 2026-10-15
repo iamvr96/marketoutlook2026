@@ -98,6 +98,20 @@
   .pill{display:inline-block;padding:4px 10px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;border:1px solid}
   .pill.yes{color:var(--ok);border-color:rgba(95,211,160,.4)}
   .pill.no{color:var(--no);border-color:rgba(232,137,154,.4)}
+  .ttl{color:var(--gold-hi)}
+  .vip{display:inline-block;font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;color:#1d1405;background:linear-gradient(100deg,var(--gold),var(--gold-hi));padding:2px 6px;margin-left:6px;vertical-align:middle}
+  td .plus{display:block;margin-top:6px;font-size:12.5px;color:var(--text)}
+  td .plus i{font-style:normal;color:var(--gold);font-weight:600;margin-right:4px}
+  .stat em{display:block;font-style:normal;font-size:11px;color:var(--muted);margin-top:2px}
+  .titlegrid{display:grid;grid-template-columns:150px 1fr;gap:16px}
+  tr.linked td{background:rgba(201,168,106,.035)}
+  tr.linked td.first{border-left:2px solid var(--gold);padding-left:26px}
+  td .party{display:block;margin-top:6px;font-size:12px;color:var(--gold-hi)}
+  td .of{display:block;margin-top:6px;font-size:12px;color:var(--gold-hi)}
+  td .of::before{content:"↳ ";color:var(--gold)}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
+  @media (max-width:900px){tr.linked{margin-left:14px;border-left:2px solid var(--gold)} tr.linked td.first{border-left:none;padding-left:16px}}
+  @media (max-width:520px){.titlegrid{grid-template-columns:110px 1fr}}
   .tag{display:inline-block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-soft);padding:2px 6px;margin-left:6px;vertical-align:middle}
   .acts{display:flex;gap:6px;justify-content:flex-end}
   .empty{text-align:center;color:var(--muted);padding:40px!important}
@@ -194,20 +208,21 @@
   <main>
     <section class="stats">
       <div class="stat"><small>Responses</small><b id="sTotal">0</b></div>
-      <div class="stat hl"><small>Attending</small><b id="sYes">0</b></div>
+      <div class="stat hl"><small>Attending (pax)</small><b id="sYes">0</b><em id="sYesSub"></em></div>
       <div class="stat"><small>Declined</small><b id="sNo">0</b></div>
-      <div class="stat"><small>Checked In</small><b id="sIn">0</b></div>
+      <div class="stat"><small>Checked In (pax)</small><b id="sIn">0</b></div>
     </section>
     <section class="breakdown">
-      <div class="panel"><h3>Attending by Branch</h3><div id="byBranch"></div></div>
+      <div class="panel"><h3>Attending by Branch (pax)</h3><div id="byBranch"></div></div>
       <div class="panel"><h3>Main Course · for the hotel</h3><div id="byMeal"></div></div>
     </section>
 
     <section class="toolbar">
-      <input class="in search" id="q" type="search" placeholder="Search name, email or phone">
+      <input class="in search" id="q" type="search" placeholder="Search name, guest, email or phone">
       <select class="in" id="fBranch"><option value="">All branches</option></select>
       <select class="in" id="fResp"><option value="">All responses</option><option>Attending</option><option>Not Attending</option></select>
       <select class="in" id="fMeal"><option value="">All main courses</option></select>
+      <select class="in" id="fTag"><option value="">All guests</option><option value="vip">VIP (Dato', Dr, etc.)</option><option value="main">Main guests with plus-ones</option><option value="linked">Plus-ones only</option></select>
       <select class="in" id="sort">
         <option value="new">Newest first</option><option value="old">Oldest first</option>
         <option value="name">Name A–Z</option><option value="branch">Branch</option>
@@ -230,7 +245,11 @@
 <div class="overlay hidden" id="mEdit">
   <form class="modal" id="editForm" novalidate>
     <h2 class="gold-text" id="mTitle">Add Guest</h2>
-    <div class="f"><label class="lbl" for="eName">Full Name</label><input class="in" id="eName" required></div>
+    <datalist id="titleList"></datalist>
+    <div class="titlegrid">
+      <div class="f"><label class="lbl" for="eTitle">Title</label><input class="in" id="eTitle" list="titleList" placeholder="None" maxlength="30"></div>
+      <div class="f"><label class="lbl" for="eName">Full Name</label><input class="in" id="eName" required></div>
+    </div>
     <div class="grid2">
       <div class="f"><label class="lbl" for="ePhone">Contact Number</label><input class="in" id="ePhone" type="tel" required></div>
       <div class="f"><label class="lbl" for="eEmail">Email</label><input class="in" id="eEmail" type="email" required></div>
@@ -239,8 +258,14 @@
       <div class="f"><label class="lbl" for="eBranch">Branch</label><select class="in" id="eBranch"></select></div>
       <div class="f"><label class="lbl" for="eResp">Response</label><select class="in" id="eResp"><option>Attending</option><option>Not Attending</option></select></div>
     </div>
-    <div class="f" id="eMealWrap"><label class="lbl" for="eMeal">Main Course</label><select class="in" id="eMeal"></select></div>
-    <div class="f"><label class="lbl" for="eNotes">Internal Notes (team only)</label><textarea class="in" id="eNotes" placeholder="e.g. Allergies, plus-one, VIP seating, RM name"></textarea></div>
+    <div id="eGoingWrap">
+      <div class="f"><label class="lbl" for="eMeal">Main Course</label><select class="in" id="eMeal"></select></div>
+    </div>
+    <div class="f"><label class="lbl" for="eLink">Plus-one of</label>
+      <select class="in" id="eLink"></select>
+      <p class="hint" id="eLinkHint">Link this guest to the main guest they are attending with.</p>
+    </div>
+    <div class="f"><label class="lbl" for="eNotes">Internal Notes (team only)</label><textarea class="in" id="eNotes" placeholder="e.g. Allergies, VIP seating, RM name"></textarea></div>
     <label class="chk"><input type="checkbox" id="eIn"> Checked in at the event</label>
     <p class="msg" id="eMsg"></p>
     <div class="foot">
@@ -286,7 +311,7 @@ try {
 const [{ initializeApp },
        { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, setPersistence, browserSessionPersistence },
        { getFirestore, collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc, deleteDoc, writeBatch, serverTimestamp },
-       { firebaseConfig, isConfigured, BRANCHES, MEALS, rsvpId }] = mods;
+       { firebaseConfig, isConfigured, BRANCHES, MEALS }] = mods;
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const IDLE_MINUTES = 30;
 
@@ -361,23 +386,56 @@ function listen(){
   }, err => { console.error(err); $('#liveDot').style.opacity = .3; toast('Could not load the guest list: ' + err.code, true); });
 }
 
+const TITLES = ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof.", "Ir.", "Dato'", "Datin", "Datuk", "Dato' Sri", "Datin Sri",
+                "Datuk Seri", "Tan Sri", "Puan Sri"];
+$('#titleList').innerHTML = TITLES.map(t => `<option value="${esc(t)}">`).join('');
+const isVip = t => !!t && !['mr', 'mrs', 'ms', 'miss', 'mdm', 'madam'].includes(String(t).toLowerCase().replace(/\./g, '').trim());
+const fullName = (t, n) => (t ? t + ' ' : '') + (n || '');
+// 1 per attending guest (+1 for any old-style plus-one entered inside a single RSVP)
+const pax = r => r.attendance === 'Attending' ? 1 + (r.plus_one ? 1 : 0) : 0;
+const byId = id => rows.find(r => r.id === id);
+const mainOf = r => r.linkedTo ? byId(r.linkedTo) : null;
+const plusOnesOf = id => rows.filter(r => r.linkedTo === id);
+
+// One record per person: ID is a hash of email + name (same as the RSVP page)
+async function personId(email, name){
+  const key = String(email).trim().toLowerCase() + '|' + String(name).trim().toLowerCase().replace(/\s+/g, ' ');
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, '0')).join('');
+}
+const titleHtml = (t, n) => (t ? `<span class="ttl">${esc(t)}</span> ` : '') + esc(n);
+
 const tsMs = t => t?.toMillis ? t.toMillis() : 0;
 const fmt = t => t?.toDate ? t.toDate().toLocaleString('en-GB', {timeZone:'Asia/Kuala_Lumpur', day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'}) : '—';
 const waLink = p => { let d = String(p).replace(/\D/g, ''); if (d.startsWith('0')) d = '6' + d; return 'https://wa.me/' + d; };
 
 function filtered(){
   const q = $('#q').value.trim().toLowerCase();
-  const b = $('#fBranch').value, r = $('#fResp').value, m = $('#fMeal').value, s = $('#sort').value;
+  const b = $('#fBranch').value, r = $('#fResp').value, m = $('#fMeal').value, s = $('#sort').value, tg = $('#fTag').value;
   let list = rows.filter(x =>
-    (!q || [x.name, x.email, x.phone].some(v => String(v || '').toLowerCase().includes(q))) &&
-    (!b || x.branch === b) && (!r || x.attendance === r) && (!m || x.main_course === m));
+    (!q || [fullName(x.title, x.name), fullName(x.guest_title, x.guest_name), x.email, x.phone].some(v => String(v || '').toLowerCase().includes(q))) &&
+    (!b || x.branch === b) && (!r || x.attendance === r) &&
+    (!m || x.main_course === m || (x.plus_one && x.guest_main_course === m)) &&
+    (!tg || (tg === 'vip' ? (isVip(x.title) || (x.plus_one && isVip(x.guest_title)))
+           : tg === 'main' ? (plusOnesOf(x.id).length > 0 || !!x.plus_one)
+           : !!mainOf(x))));
   const by = {
     new: (a, z) => tsMs(z.createdAt) - tsMs(a.createdAt),
     old: (a, z) => tsMs(a.createdAt) - tsMs(z.createdAt),
     name: (a, z) => String(a.name).localeCompare(String(z.name)),
     branch: (a, z) => String(a.branch).localeCompare(String(z.branch)) || String(a.name).localeCompare(String(z.name))
   };
-  return list.sort(by[s]);
+  list.sort(by[s]);
+  // Keep each party together: plus-ones appear right under their main guest
+  const shown = new Set(list.map(r => r.id)), out = [], done = new Set();
+  for (const r of list) {
+    if (done.has(r.id)) continue;
+    const m = mainOf(r);
+    if (m && shown.has(m.id)) continue;            // will be placed under its main guest
+    out.push(r); done.add(r.id);
+    for (const c of list) if (c.linkedTo === r.id && !done.has(c.id)) { out.push(c); done.add(c.id); }
+  }
+  return out;
 }
 
 function bars(el, labels, counts){
@@ -387,35 +445,50 @@ function bars(el, labels, counts){
 
 function render(){
   const yes = rows.filter(r => r.attendance === 'Attending');
+  const linkedYes = yes.filter(r => mainOf(r)).length;
+  const plusOnes = linkedYes + yes.filter(r => r.plus_one).length;
+  const totalPax = yes.reduce((n, r) => n + pax(r), 0);
   $('#sTotal').textContent = rows.length;
-  $('#sYes').textContent = yes.length;
+  $('#sYes').textContent = totalPax;
+  $('#sYesSub').textContent = `${totalPax - plusOnes} main guests · ${plusOnes} plus-one${plusOnes === 1 ? '' : 's'}`;
   $('#sNo').textContent = rows.length - yes.length;
-  $('#sIn').textContent = `${yes.filter(r => r.checkedIn).length}/${yes.length}`;
-  bars($('#byBranch'), BRANCHES, BRANCHES.map(b => yes.filter(r => r.branch === b).length));
-  bars($('#byMeal'), MEALS, MEALS.map(m => yes.filter(r => r.main_course === m).length));
+  $('#sIn').textContent = `${yes.filter(r => r.checkedIn).reduce((n, r) => n + pax(r), 0)}/${totalPax}`;
+  bars($('#byBranch'), BRANCHES, BRANCHES.map(b => yes.filter(r => r.branch === b).reduce((n, r) => n + pax(r), 0)));
+  bars($('#byMeal'), MEALS, MEALS.map(m => yes.filter(r => r.main_course === m).length + yes.filter(r => r.plus_one && r.guest_main_course === m).length));
 
   const list = filtered();
   $('#count').textContent = `Showing ${list.length} of ${rows.length}`;
-  $('#rows').innerHTML = list.length ? list.map(r => `
-    <tr>
-      <td class="first" data-label="Guest"><span class="name">${esc(r.name)}</span>${r.source === 'admin' ? '<span class="tag">Added by team</span>' : ''}
-        <span class="sub">${esc(r.email)}</span>${r.notes ? `<span class="note">${esc(r.notes)}</span>` : ''}</td>
+  $('#rows').innerHTML = list.length ? list.map(r => { const m = mainOf(r), kids = plusOnesOf(r.id); return `
+    <tr class="${m ? 'linked' : ''}">
+      <td class="first" data-label="Guest"><span class="name">${titleHtml(r.title, r.name)}</span>${isVip(r.title) ? '<span class="vip">VIP</span>' : ''}${r.source === 'admin' ? '<span class="tag">Added by team</span>' : ''}
+        <span class="sub">${esc(r.email)}</span>
+        ${m ? `<span class="of">Plus-one of ${titleHtml(m.title, m.name)}</span>` : ''}
+        ${kids.length ? `<span class="party">Party of ${kids.length + 1} · with ${kids.map(k => titleHtml(k.title, k.name)).join(', ')}</span>` : ''}
+        ${r.plus_one ? `<span class="plus"><i>+1</i>${titleHtml(r.guest_title, r.guest_name)}${isVip(r.guest_title) ? '<span class="vip">VIP</span>' : ''}</span>` : ''}
+        ${r.notes ? `<span class="note">${esc(r.notes)}</span>` : ''}</td>
       <td data-label="Contact"><a href="tel:${esc(r.phone)}">${esc(r.phone)}</a><a class="wa" href="${waLink(r.phone)}" target="_blank" rel="noopener">WhatsApp</a></td>
       <td data-label="Branch">${esc(r.branch)}</td>
       <td data-label="Response"><span class="pill ${r.attendance === 'Attending' ? 'yes' : 'no'}">${r.attendance === 'Attending' ? 'Attending' : 'Declined'}</span></td>
-      <td data-label="Main Course">${esc(r.main_course)}</td>
+      <td data-label="Main Course">${esc(r.main_course)}${r.plus_one ? `<span class="sub">+1: ${esc(r.guest_main_course)}</span>` : ''}</td>
       <td data-label="Checked In"><label class="switch" title="Checked in"><input type="checkbox" data-in="${r.id}" ${r.checkedIn ? 'checked' : ''} ${r.attendance !== 'Attending' ? 'disabled' : ''}><span></span></label></td>
       <td data-label="Responded">${fmt(r.createdAt)}</td>
-      <td data-label=""><div class="acts"><button class="btn sm" data-edit="${r.id}">Edit</button><button class="btn sm danger" data-del="${r.id}">Remove</button></div></td>
-    </tr>`).join('') : `<tr><td colspan="8" class="empty">${rows.length ? 'No guests match these filters.' : 'No responses yet.'}</td></tr>`;
+      <td data-label=""><div class="acts">${kids.length ? '' : `<button class="btn sm" data-link="${r.id}" title="${m ? 'Remove the plus-one link' : 'Link as a plus-one of a main guest'}">${m ? 'Unlink' : 'Link'}</button>`}<button class="btn sm" data-edit="${r.id}">Edit</button><button class="btn sm danger" data-del="${r.id}">Remove</button></div></td>
+    </tr>`; }).join('') : `<tr><td colspan="8" class="empty">${rows.length ? 'No guests match these filters.' : 'No responses yet.'}</td></tr>`;
 }
-['#q','#fBranch','#fResp','#fMeal','#sort'].forEach(s => $(s).addEventListener('input', render));
+['#q','#fBranch','#fResp','#fMeal','#fTag','#sort'].forEach(s => $(s).addEventListener('input', render));
 
 /* Row actions */
 $('#rows').addEventListener('click', e => {
-  const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-del]');
+  const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-del]'), ln = e.target.closest('[data-link]');
   if (ed) openEdit(ed.dataset.edit);
-  if (del) { deletingId = del.dataset.del; $('#delName').textContent = rows.find(r => r.id === deletingId)?.name || 'This guest'; $('#mDel').classList.remove('hidden'); }
+  if (ln) {
+    const r = byId(ln.dataset.link);
+    if (mainOf(r)) {
+      updateDoc(doc(db, 'rsvps', r.id), { linkedTo: null, updatedAt: serverTimestamp(), updatedBy: auth.currentUser.email })
+        .then(() => toast(`${fullName(r.title, r.name)} unlinked`)).catch(() => toast('Could not unlink', true));
+    } else { openEdit(r.id); setTimeout(() => $('#eLink').focus(), 50); }
+  }
+  if (del) { deletingId = del.dataset.del; const d = byId(deletingId); $('#delName').textContent = d ? fullName(d.title, d.name) : 'This guest'; $('#mDel').classList.remove('hidden'); }
 });
 $('#rows').addEventListener('change', async e => {
   const box = e.target.closest('[data-in]'); if (!box) return;
@@ -427,14 +500,31 @@ $('#rows').addEventListener('change', async e => {
 });
 
 /* ---------------- Add / edit ---------------- */
-const mealToggle = () => $('#eMealWrap').classList.toggle('hidden', $('#eResp').value !== 'Attending');
+const mealToggle = () => $('#eGoingWrap').classList.toggle('hidden', $('#eResp').value !== 'Attending');
 $('#eResp').addEventListener('change', mealToggle);
+
+function fillLinkOptions(id){
+  const kids = id ? plusOnesOf(id) : [];
+  const sel = $('#eLink'), hint = $('#eLinkHint');
+  if (kids.length) {   // a main guest with plus-ones cannot also be someone's plus-one
+    sel.innerHTML = '<option value="">— Main guest —</option>'; sel.disabled = true;
+    hint.textContent = `This is a main guest with ${kids.length} plus-one${kids.length > 1 ? 's' : ''}. Unlink them first to change this.`;
+    return;
+  }
+  sel.disabled = false;
+  hint.textContent = 'Link this guest to the main guest they are attending with.';
+  const mains = rows.filter(r => r.id !== id && !r.linkedTo)
+    .sort((a, z) => String(a.name).localeCompare(String(z.name)));
+  sel.innerHTML = '<option value="">— Not a plus-one (main guest) —</option>' +
+    mains.map(r => `<option value="${r.id}">${esc(fullName(r.title, r.name))} · ${esc(r.branch)}</option>`).join('');
+}
 
 function openEdit(id = null){
   editingId = id;
   const r = id ? rows.find(x => x.id === id) : {};
   $('#mTitle').textContent = id ? 'Edit Guest' : 'Add Guest';
-  $('#eName').value = r.name || ''; $('#ePhone').value = r.phone || ''; $('#eEmail').value = r.email || '';
+  $('#eTitle').value = r.title || ''; $('#eName').value = r.name || ''; $('#ePhone').value = r.phone || ''; $('#eEmail').value = r.email || '';
+  fillLinkOptions(id); $('#eLink').value = r.linkedTo && byId(r.linkedTo) ? r.linkedTo : '';
   $('#eBranch').value = r.branch || BRANCHES[0]; $('#eResp').value = r.attendance || 'Attending';
   $('#eMeal').value = MEALS.includes(r.main_course) ? r.main_course : MEALS[0];
   $('#eNotes').value = r.notes || ''; $('#eIn').checked = !!r.checkedIn;
@@ -448,6 +538,8 @@ $('#editForm').addEventListener('submit', async e => {
   const msg = $('#eMsg'); msg.textContent = '';
   const going = $('#eResp').value === 'Attending';
   const data = {
+    title: $('#eTitle').value.trim().slice(0, 30),
+    linkedTo: $('#eLink').disabled ? null : ($('#eLink').value || null),
     name: $('#eName').value.trim(), phone: $('#ePhone').value.trim(), email: $('#eEmail').value.trim().toLowerCase(),
     branch: $('#eBranch').value, attendance: $('#eResp').value, main_course: going ? $('#eMeal').value : 'N/A',
     notes: $('#eNotes').value.trim().slice(0, 500), checkedIn: going && $('#eIn').checked,
@@ -459,22 +551,15 @@ $('#editForm').addEventListener('submit', async e => {
 
   const btn = $('#eSave'); btn.disabled = true;
   try {
-    const newId = await rsvpId(data.email);
+    const same = r => r.id !== editingId && String(r.email).toLowerCase() === data.email &&
+      String(r.name).trim().toLowerCase() === data.name.toLowerCase();
+    if (rows.some(same)) { msg.textContent = 'This guest (same name and email) is already on the list.'; return; }
     if (!editingId) {
-      if ((await getDoc(doc(db, 'rsvps', newId))).exists()) { msg.textContent = 'A guest with this email is already on the list.'; return; }
+      const newId = await personId(data.email, data.name);
       await setDoc(doc(db, 'rsvps', newId), { ...data, source: 'admin', addedBy: auth.currentUser.email, createdAt: serverTimestamp() });
-      toast(`${data.name} added`);
-    } else if (newId === editingId) {
-      await updateDoc(doc(db, 'rsvps', editingId), data);
-      toast('Changes saved');
+      toast(`${fullName(data.title, data.name)} added`);
     } else {
-      // Email changed: move the record to its new ID
-      if ((await getDoc(doc(db, 'rsvps', newId))).exists()) { msg.textContent = 'Another guest already uses this email.'; return; }
-      const { id, ...old } = rows.find(r => r.id === editingId);
-      const batch = writeBatch(db);
-      batch.set(doc(db, 'rsvps', newId), { ...old, ...data });
-      batch.delete(doc(db, 'rsvps', editingId));
-      await batch.commit();
+      await updateDoc(doc(db, 'rsvps', editingId), data);   // record keeps its ID, so links stay intact
       toast('Changes saved');
     }
     $('#mEdit').classList.add('hidden');
@@ -485,7 +570,13 @@ $('#editForm').addEventListener('submit', async e => {
 /* ---------------- Delete ---------------- */
 $('#delYes').addEventListener('click', async () => {
   const btn = $('#delYes'); btn.disabled = true;
-  try { await deleteDoc(doc(db, 'rsvps', deletingId)); toast('Guest removed'); $('#mDel').classList.add('hidden'); }
+  try {
+    const batch = writeBatch(db);
+    plusOnesOf(deletingId).forEach(k => batch.update(doc(db, 'rsvps', k.id), { linkedTo: null }));   // their plus-ones stay, just unlinked
+    batch.delete(doc(db, 'rsvps', deletingId));
+    await batch.commit();
+    toast('Guest removed'); $('#mDel').classList.add('hidden');
+  }
   catch (err) { toast('Could not remove guest', true); }
   finally { btn.disabled = false; }
 });
@@ -498,23 +589,33 @@ addEventListener('keydown', e => { if (e.key === 'Escape') $$('.overlay').forEac
 /* ---------------- Export to Excel ---------------- */
 $('#exportBtn').addEventListener('click', () => {
   if (!window.XLSX) return toast('Excel export is still loading, try again in a second', true);
-  const list = [...rows].sort((a, z) => String(a.branch).localeCompare(String(z.branch)) || String(a.name).localeCompare(String(z.name)));
+  // Grouped by party: each main guest followed by their plus-ones
+  const sorted = [...rows].sort((a, z) => String(a.branch).localeCompare(String(z.branch)) || String(a.name).localeCompare(String(z.name)));
+  const list = [];
+  sorted.filter(r => !mainOf(r)).forEach(r => { list.push(r); list.push(...sorted.filter(c => c.linkedTo === r.id)); });
+  const legacy = rows.some(r => r.plus_one);
   const guests = list.map(r => ({
-    'Full Name': r.name, 'Contact Number': r.phone, 'Email': r.email, 'Branch': r.branch,
-    'Response': r.attendance, 'Main Course': r.main_course, 'Checked In': r.checkedIn ? 'Yes' : 'No',
+    'Title': r.title || '', 'Full Name': r.name, 'VIP': isVip(r.title) ? 'Yes' : '', 'Contact Number': r.phone, 'Email': r.email, 'Branch': r.branch,
+    'Response': r.attendance, 'Main Course': r.main_course,
+    'Plus-One Of': mainOf(r) ? fullName(mainOf(r).title, mainOf(r).name) : '',
+    'Party Size': mainOf(r) ? '' : 1 + plusOnesOf(r.id).length,
+    ...(legacy ? { 'Old-form Guest': r.plus_one ? `${fullName(r.guest_title, r.guest_name)} (${r.guest_main_course})` : '' } : {}),
+    'Checked In': r.checkedIn ? 'Yes' : 'No',
     'Notes': r.notes || '', 'Source': r.source === 'admin' ? 'Added by team' : 'Website', 'Responded At': fmt(r.createdAt)
   }));
   const yes = rows.filter(r => r.attendance === 'Attending');
   const summary = [
     ['Market Outlook Talk – Johor · 28 October 2026', ''], ['', ''],
-    ['Total responses', rows.length], ['Attending', yes.length], ['Declined', rows.length - yes.length],
-    ['Checked in', yes.filter(r => r.checkedIn).length], ['', ''], ['ATTENDING BY BRANCH', ''],
-    ...BRANCHES.map(b => [b, yes.filter(r => r.branch === b).length]), ['', ''], ['MAIN COURSE', ''],
-    ...MEALS.map(m => [m, yes.filter(r => r.main_course === m).length])
+    ['Total responses', rows.length], ['Main guests attending', yes.filter(r => !mainOf(r)).length],
+    ['Plus-ones attending', yes.filter(r => mainOf(r)).length + yes.filter(r => r.plus_one).length],
+    ['TOTAL PAX', yes.reduce((n, r) => n + pax(r), 0)], ['Declined', rows.length - yes.length],
+    ['Checked in (pax)', yes.filter(r => r.checkedIn).reduce((n, r) => n + pax(r), 0)], ['', ''], ['PAX BY BRANCH', ''],
+    ...BRANCHES.map(b => [b, yes.filter(r => r.branch === b).reduce((n, r) => n + pax(r), 0)]), ['', ''], ['MAIN COURSE', ''],
+    ...MEALS.map(m => [m, yes.filter(r => r.main_course === m).length + yes.filter(r => r.plus_one && r.guest_main_course === m).length])
   ];
   const wb = XLSX.utils.book_new();
   const ws1 = XLSX.utils.json_to_sheet(guests);
-  ws1['!cols'] = [28, 16, 30, 14, 14, 32, 11, 36, 15, 18].map(w => ({ wch: w }));
+  ws1['!cols'] = [10, 28, 6, 16, 30, 14, 14, 32, 30, 10, ...(legacy ? [40] : []), 11, 36, 15, 18].map(w => ({ wch: w }));
   const ws2 = XLSX.utils.aoa_to_sheet(summary);
   ws2['!cols'] = [{ wch: 40 }, { wch: 10 }];
   XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
