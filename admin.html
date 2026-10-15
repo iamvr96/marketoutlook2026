@@ -112,6 +112,7 @@
   .hint{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5}
   @media (max-width:900px){tr.linked{margin-left:14px;border-left:2px solid var(--gold)} tr.linked td.first{border-left:none;padding-left:16px}}
   @media (max-width:520px){.titlegrid{grid-template-columns:110px 1fr}}
+  .tag.late{color:#f0b87a;border-color:rgba(240,184,122,.45)}
   .tag{display:inline-block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-soft);padding:2px 6px;margin-left:6px;vertical-align:middle}
   .acts{display:flex;gap:6px;justify-content:flex-end}
   .empty{text-align:center;color:var(--muted);padding:40px!important}
@@ -222,7 +223,7 @@
       <select class="in" id="fBranch"><option value="">All branches</option></select>
       <select class="in" id="fResp"><option value="">All responses</option><option>Attending</option><option>Not Attending</option></select>
       <select class="in" id="fMeal"><option value="">All main courses</option></select>
-      <select class="in" id="fTag"><option value="">All guests</option><option value="vip">VIP (Dato', Dr, etc.)</option><option value="main">Main guests with plus-ones</option><option value="linked">Plus-ones only</option></select>
+      <select class="in" id="fTag"><option value="">All guests</option><option value="vip">VIP (Dato', Dr, etc.)</option><option value="main">Main guests with plus-ones</option><option value="linked">Plus-ones only</option><option value="late">Late RSVPs (after 21 Oct)</option></select>
       <select class="in" id="sort">
         <option value="new">Newest first</option><option value="old">Oldest first</option>
         <option value="name">Name A–Z</option><option value="branch">Branch</option>
@@ -311,7 +312,9 @@ try {
 const [{ initializeApp },
        { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, setPersistence, browserSessionPersistence },
        { getFirestore, collection, doc, query, orderBy, onSnapshot, getDoc, setDoc, updateDoc, deleteDoc, writeBatch, serverTimestamp },
-       { firebaseConfig, isConfigured, BRANCHES, MEALS }] = mods;
+       { firebaseConfig, isConfigured, BRANCHES }] = mods;
+// Main course list kept here so config.js on the live site never needs changing
+const MEALS = ["12-Hour Slow-Braised Beef Cheek", "Fillet of Seabass", "Chicken Roulade", "Stuffed Portobello Mushroom"];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const IDLE_MINUTES = 30;
 
@@ -393,6 +396,8 @@ const isVip = t => !!t && !['mr', 'mrs', 'ms', 'miss', 'mdm', 'madam'].includes(
 const fullName = (t, n) => (t ? t + ' ' : '') + (n || '');
 // 1 per attending guest (+1 for any old-style plus-one entered inside a single RSVP)
 const pax = r => r.attendance === 'Attending' ? 1 + (r.plus_one ? 1 : 0) : 0;
+const MENU_CUTOFF = new Date('2026-10-22T00:00:00+08:00').getTime();
+const isLateRsvp = r => r.source !== 'admin' && tsMs(r.createdAt) >= MENU_CUTOFF;
 const byId = id => rows.find(r => r.id === id);
 const mainOf = r => r.linkedTo ? byId(r.linkedTo) : null;
 const plusOnesOf = id => rows.filter(r => r.linkedTo === id);
@@ -417,6 +422,7 @@ function filtered(){
     (!b || x.branch === b) && (!r || x.attendance === r) &&
     (!m || x.main_course === m || (x.plus_one && x.guest_main_course === m)) &&
     (!tg || (tg === 'vip' ? (isVip(x.title) || (x.plus_one && isVip(x.guest_title)))
+           : tg === 'late' ? isLateRsvp(x)
            : tg === 'main' ? (plusOnesOf(x.id).length > 0 || !!x.plus_one)
            : !!mainOf(x))));
   const by = {
@@ -460,7 +466,7 @@ function render(){
   $('#count').textContent = `Showing ${list.length} of ${rows.length}`;
   $('#rows').innerHTML = list.length ? list.map(r => { const m = mainOf(r), kids = plusOnesOf(r.id); return `
     <tr class="${m ? 'linked' : ''}">
-      <td class="first" data-label="Guest"><span class="name">${titleHtml(r.title, r.name)}</span>${isVip(r.title) ? '<span class="vip">VIP</span>' : ''}${r.source === 'admin' ? '<span class="tag">Added by team</span>' : ''}
+      <td class="first" data-label="Guest"><span class="name">${titleHtml(r.title, r.name)}</span>${isVip(r.title) ? '<span class="vip">VIP</span>' : ''}${r.source === 'admin' ? '<span class="tag">Added by team</span>' : ''}${isLateRsvp(r) ? '<span class="tag late">Late RSVP</span>' : ''}
         <span class="sub">${esc(r.email)}</span>
         ${m ? `<span class="of">Plus-one of ${titleHtml(m.title, m.name)}</span>` : ''}
         ${kids.length ? `<span class="party">Party of ${kids.length + 1} · with ${kids.map(k => titleHtml(k.title, k.name)).join(', ')}</span>` : ''}
@@ -600,6 +606,7 @@ $('#exportBtn').addEventListener('click', () => {
     'Plus-One Of': mainOf(r) ? fullName(mainOf(r).title, mainOf(r).name) : '',
     'Party Size': mainOf(r) ? '' : 1 + plusOnesOf(r.id).length,
     ...(legacy ? { 'Old-form Guest': r.plus_one ? `${fullName(r.guest_title, r.guest_name)} (${r.guest_main_course})` : '' } : {}),
+    'Late RSVP': isLateRsvp(r) ? 'Yes' : '',
     'Checked In': r.checkedIn ? 'Yes' : 'No',
     'Notes': r.notes || '', 'Source': r.source === 'admin' ? 'Added by team' : 'Website', 'Responded At': fmt(r.createdAt)
   }));
@@ -615,7 +622,7 @@ $('#exportBtn').addEventListener('click', () => {
   ];
   const wb = XLSX.utils.book_new();
   const ws1 = XLSX.utils.json_to_sheet(guests);
-  ws1['!cols'] = [10, 28, 6, 16, 30, 14, 14, 32, 30, 10, ...(legacy ? [40] : []), 11, 36, 15, 18].map(w => ({ wch: w }));
+  ws1['!cols'] = [10, 28, 6, 16, 30, 14, 14, 32, 30, 10, ...(legacy ? [40] : []), 10, 11, 36, 15, 18].map(w => ({ wch: w }));
   const ws2 = XLSX.utils.aoa_to_sheet(summary);
   ws2['!cols'] = [{ wch: 40 }, { wch: 10 }];
   XLSX.utils.book_append_sheet(wb, ws2, 'Summary');

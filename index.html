@@ -313,11 +313,12 @@
 
         <div class="field collapsible" id="g-meal">
           <span class="label">The Main Course</span>
-          <p class="final-note">Kindly note that main course selections are final once confirmed and cannot be changed.</p>
+          <p class="final-note" id="finalNote">Kindly note that main course selections are final once confirmed and cannot be changed.</p>
           <div class="menu">
             <div class="choice"><input type="radio" id="m1" name="main_course" value="12-Hour Slow-Braised Beef Cheek"><label for="m1"><span class="num">i.</span><span class="dish"><b>12-Hour Slow-Braised Beef Cheek</b><span>Silky mashed potato, braised leek, honey-glazed carrot &amp; chasseur sauce</span></span><span class="dot"></span></label></div>
             <div class="choice"><input type="radio" id="m2" name="main_course" value="Fillet of Seabass"><label for="m2"><span class="num">ii.</span><span class="dish"><b>Fillet of Seabass</b><span>Baked seabass with saffron potato purée, buttered seasonal vegetables &amp; lemon cream sauce</span></span><span class="dot"></span></label></div>
-            <div class="choice"><input type="radio" id="m3" name="main_course" value="Stuffed Portobello Mushroom"><label for="m3"><span class="num">iii.</span><span class="dish"><b>Stuffed Portobello Mushroom <span class="veg">Vegetarian</span></b><span>Red bean &amp; spinach filling, silky mashed potato, honey-glazed baby carrot &amp; tomato coulis</span></span><span class="dot"></span></label></div>
+            <div class="choice"><input type="radio" id="m4" name="main_course" value="Chicken Roulade"><label for="m4"><span class="num">iii.</span><span class="dish"><b>Chicken Roulade</b><span>Forest mushroom duxelles &amp; chicken stuffing, silky mashed potato, buttered seasonal vegetables &amp; thyme au jus</span></span><span class="dot"></span></label></div>
+            <div class="choice"><input type="radio" id="m3" name="main_course" value="Stuffed Portobello Mushroom"><label for="m3"><span class="num">iv.</span><span class="dish"><b>Stuffed Portobello Mushroom <span class="veg">Vegetarian</span></b><span>Red bean &amp; spinach filling, silky mashed potato, honey-glazed baby carrot &amp; tomato coulis</span></span><span class="dot"></span></label></div>
           </div>
           <p class="err">Kindly select your main course.</p>
         </div>
@@ -373,7 +374,10 @@ const CONFIG = {
   EVENT_START: "2026-10-28T18:30:00+08:00",
   EVENT_END:   "2026-10-28T22:00:00+08:00",
   VENUE: "DoubleTree by Hilton Johor Bahru",
-  RSVP_DEADLINE: "2026-10-21T23:59:59+08:00"
+  RSVP_DEADLINE: "2026-10-27T23:59:59+08:00",
+  // After this, the menu is confirmed with the hotel and late RSVPs are served the Chicken Roulade
+  MENU_CUTOFF: "2026-10-22T00:00:00+08:00",
+  LATE_MAIN: "Chicken Roulade"
 };
 /* ================================================================== */
 
@@ -428,6 +432,18 @@ function syncSections(){
 }
 form.querySelectorAll('input[name=attendance]').forEach(r => r.addEventListener('change', syncSections));
 
+/* Menu cut-off: from 22 October only the Chicken Roulade is offered */
+const isLate = () => Date.now() >= new Date(CONFIG.MENU_CUTOFF).getTime();
+function applyMenuCutoff(){
+  if (!isLate()) return;
+  form.querySelectorAll('input[name=main_course]').forEach(r => {
+    if (r.value === CONFIG.LATE_MAIN) { r.checked = true; r.closest('.choice').querySelector('.num').textContent = ''; }
+    else r.closest('.choice').remove();
+  });
+  $('#finalNote').style.display = 'none';
+}
+applyMenuCutoff();
+
 /* Validation */
 const checks = {
   'g-attend':  () => attending() !== null,
@@ -460,6 +476,7 @@ form.addEventListener('submit', async e => {
     msg.textContent = 'Responses have now closed. Kindly contact your Relationship Manager.'; return;
   }
 
+  applyMenuCutoff();   // in case the page was left open past the cut-off
   const going = attending();
   const rsvp = {
     title: titleOf('#title', '#titleOther'),
@@ -545,7 +562,7 @@ function showSuccess(d, going){
 }
 
 $('#againBtn').addEventListener('click', () => {
-  form.reset(); $('#titleOther').classList.add('hidden'); meal.classList.remove('hidden');
+  form.reset(); $('#titleOther').classList.add('hidden'); meal.classList.remove('hidden'); applyMenuCutoff();
   $('#btnText').textContent = 'Confirm Attendance';
   $('#successView').classList.remove('show'); $('#formView').style.display = 'block';
 });
