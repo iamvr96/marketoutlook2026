@@ -161,6 +161,127 @@
     main{padding:20px 14px 60px}
   }
   @media (max-width:520px){ .grid2{grid-template-columns:1fr} .stat b{font-size:36px} }
+  /* ---------- Tabs ---------- */
+  .tabs{position:sticky;top:63px;z-index:4;display:flex;gap:0;padding:0 24px;background:rgba(4,9,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-soft);overflow-x:auto}
+  .tabs button{background:none;border:none;border-bottom:2px solid transparent;padding:14px 18px;color:var(--muted);cursor:pointer;font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+  .tabs button.on{color:var(--gold-hi);border-bottom-color:var(--gold)}
+  .tabs button em{font-style:normal;margin-left:6px;color:var(--gold);font-weight:500;letter-spacing:.05em}
+  .tsel{width:auto;min-width:110px;padding:7px 28px 7px 10px;font-size:12.5px}
+  .tchip{display:inline-block;min-width:34px;text-align:center;padding:3px 8px;border:1px solid var(--gold);color:var(--gold-hi);font-weight:600;font-size:12px}
+
+  /* ---------- Seating ---------- */
+  .seat-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(300px,1fr);gap:18px;align-items:start}
+  .plan-wrap{position:relative;padding:14px;border:1px solid var(--line-soft);background:var(--panel)}
+  .plan{width:100%;height:auto;display:block;touch-action:manipulation;user-select:none}
+  .plan .wall{fill:none;stroke:rgba(233,236,245,.55);stroke-width:2}
+  .plan .divider{stroke:rgba(233,236,245,.25);stroke-width:1;stroke-dasharray:8 4 2 4}
+  .plan .lbl{fill:var(--muted);font:500 9px var(--sans);letter-spacing:.12em;text-transform:uppercase}
+  .plan .screen{fill:#1b2a6b;stroke:var(--gold-lo)}
+  .plan .fixture{fill:rgba(233,236,245,.06);stroke:rgba(233,236,245,.4)}
+  .plan .tbl{cursor:pointer}
+  .plan .tbl .top{fill:#0e1f5e;stroke:var(--gold);stroke-width:1.5;transition:fill .2s}
+  .plan .tbl:hover .top,.plan .tbl:focus .top{fill:#173083}
+  .plan .tbl.picked .top{fill:#24409e;stroke:var(--gold-hi);stroke-width:2.5}
+  .plan .tbl.full .top{stroke:#7fd9b0}
+  .plan .tbl.over .top{stroke:var(--no);stroke-width:2.5}
+  .plan.assigning .tbl .top{stroke-dasharray:4 3;animation:march 1s linear infinite}
+  @keyframes march{to{stroke-dashoffset:-14}}
+  .plan .tbl.drop .top{fill:#2a4ab0}
+  .plan .tnum{fill:var(--gold-hi);font:600 20px var(--serif);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+  .plan .tcount{fill:var(--text);font:600 10px var(--sans);text-anchor:middle;pointer-events:none}
+  .plan .tbl.over .tcount{fill:var(--no)}
+  .plan .chair{fill:transparent;stroke:rgba(233,236,245,.45);stroke-width:1.2}
+  .plan .chair.taken{fill:var(--gold);stroke:var(--gold-hi)}
+  .plan .chair.here{fill:var(--ok);stroke:#b6f0d3}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-top:10px;font-size:11.5px;color:var(--muted)}
+  .legend i{display:inline-block;width:11px;height:9px;border-radius:2px;margin-right:6px;vertical-align:-1px;border:1px solid rgba(233,236,245,.45)}
+  .legend i.t{background:var(--gold);border-color:var(--gold-hi)} .legend i.h{background:var(--ok);border-color:#b6f0d3}
+  .banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 14px;margin-bottom:12px;border:1px solid var(--gold);background:rgba(201,168,106,.12);color:var(--gold-hi);font-size:13px}
+  .banner b{color:#fff}
+  .banner .btn{margin-left:auto}
+  .side{display:grid;gap:14px}
+  .glist{display:grid;gap:6px;max-height:440px;overflow:auto;margin-top:10px}
+  .gi{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line-soft);background:rgba(4,9,32,.45);cursor:pointer;font-size:13px}
+  .gi:hover{border-color:var(--line)}
+  .gi.on{border-color:var(--gold);background:rgba(201,168,106,.14)}
+  .gi .gn{flex:1;min-width:0}
+  .gi .gn small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+  .gi .kids{display:block;color:var(--gold-hi);font-size:11.5px;margin-top:3px}
+  .gi .ok{color:var(--ok);font-size:11px;font-weight:600;white-space:nowrap}
+  .row-btns{display:flex;gap:6px}
+  .mini{font-size:11.5px;color:var(--muted)}
+  .chk.inline{margin:8px 0 0}
+  .meal-grid{width:100%;border-collapse:collapse;font-size:12.5px;background:none;border:none}
+  .meal-grid th,.meal-grid td{padding:8px 6px;border-bottom:1px solid var(--line-soft);text-align:center}
+  .meal-grid th:first-child,.meal-grid td:first-child{text-align:left}
+  .meal-grid tr.tot td{font-weight:700;color:var(--gold-hi);border-top:1px solid var(--line)}
+  .seg{display:inline-flex;border:1px solid var(--line)}
+  .seg button{background:none;border:none;color:var(--muted);padding:6px 10px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .seg button.on{background:rgba(201,168,106,.18);color:var(--gold-hi)}
+  .panel .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .panel .head h3{margin:0}
+
+  /* ---------- Check-in ---------- */
+  .ci-stats{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:14px}
+  .progress{height:6px;background:rgba(233,236,245,.08);margin-top:10px}
+  .progress i{display:block;height:100%;background:linear-gradient(90deg,#3fa57a,var(--ok));transition:width .6s}
+  .ci-tables{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .ci-tables span{padding:6px 10px;border:1px solid var(--line-soft);font-size:12px;color:var(--muted)}
+  .ci-tables span b{color:var(--text)}
+  .ci-tables span.done{border-color:rgba(95,211,160,.5);color:var(--ok)}
+  .ci-search{display:flex;gap:10px;margin:22px 0 14px}
+  .ci-search input{flex:1;font-size:22px;padding:16px 18px;border-color:var(--line)}
+  .ci-done{display:flex;align-items:center;gap:22px;padding:18px 22px;margin-bottom:14px;border:1px solid var(--ok);background:rgba(95,211,160,.1);animation:pop .35s ease}
+  @keyframes pop{from{transform:scale(.97);opacity:0}}
+  .ci-done .big{font-family:var(--serif);font-size:58px;line-height:1;color:#fff;text-align:center;min-width:110px}
+  .ci-done .big small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.3em;color:var(--ok);margin-bottom:4px}
+  .ci-done .who{font-size:18px;color:#fff;font-weight:600}
+  .ci-done .who small{display:block;font-size:13px;color:var(--muted);font-weight:400;margin-top:4px}
+  .ci-list{display:grid;gap:10px}
+  .ci-card{display:grid;grid-template-columns:1fr auto auto;gap:18px;align-items:center;padding:16px 18px;border:1px solid var(--line-soft);background:var(--panel)}
+  .ci-card.arrived{border-color:rgba(95,211,160,.45);background:rgba(95,211,160,.06)}
+  .ci-card .nm{font-size:17px;font-weight:600}
+  .ci-card .meta{color:var(--muted);font-size:12.5px;margin-top:5px;line-height:1.6}
+  .ci-card .meta b{color:var(--text);font-weight:500}
+  .ci-card .warn{display:inline-block;margin-top:6px;color:var(--gold-hi);font-size:12px;font-style:italic}
+  .ci-card .bad{color:var(--no)}
+  .ci-tbl{text-align:center;min-width:92px}
+  .ci-tbl small{display:block;font-size:9.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+  .ci-tbl b{display:block;font-family:var(--serif);font-size:46px;font-weight:400;line-height:1;color:#fff}
+  .ci-tbl b.none{font-size:20px;color:var(--muted);padding:12px 0}
+  .ci-act{display:grid;gap:6px;min-width:150px}
+  .ci-act .btn{padding:14px 16px}
+  .ci-act .btn.go{background:linear-gradient(100deg,#2f8f66,#4fc391);color:#04120c;border-color:transparent}
+  .ci-arr{color:var(--ok);font-size:12px;font-weight:600;text-align:center}
+  .ci-sec{margin-top:30px}
+  .ci-sec .head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+  .ci-sec h3{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-right:auto}
+  .ci-row{display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line-soft);font-size:13px}
+  .ci-row .tchip{justify-self:start}
+  .ci-row small{color:var(--muted);display:block;font-size:11.5px;margin-top:2px}
+
+  .seat-grid>*{min-width:0}
+  @media (max-width:900px){
+    table.meal-grid{display:table;width:100%} .meal-grid tbody{display:table-row-group}
+    .meal-grid tr{display:table-row;border:none;background:none;margin:0;padding:0}
+    .meal-grid td,.meal-grid th{display:table-cell;text-align:center;padding:7px 4px;border-bottom:1px solid var(--line-soft);font-size:11.5px}
+    .meal-grid td:first-child,.meal-grid th:first-child{text-align:left}
+    .meal-grid td::before{content:none}
+    .meal-grid th{letter-spacing:.06em;font-size:9px}
+  }
+  @media (max-width:980px){ .seat-grid{grid-template-columns:minmax(0,1fr)} .ci-stats{grid-template-columns:1fr 1fr} }
+  @media (max-width:640px){
+    .tabs{top:auto;position:relative;padding:0 4px}
+    .tabs button{padding:13px 9px;letter-spacing:.1em;font-size:10.5px}
+    .tabs button em{margin-left:3px}
+    .plan-wrap{padding:6px}
+    .ci-card{grid-template-columns:1fr auto;gap:12px}
+    .ci-act{grid-column:1 / -1;grid-template-columns:1fr 1fr}
+    .ci-act .btn{width:100%}
+    .ci-search input{font-size:18px}
+    .ci-done{gap:14px;padding:14px}
+    .ci-done .big{font-size:44px;min-width:80px}
+  }
 </style>
 </head>
 <body>
@@ -205,8 +326,13 @@
       <button class="btn sm" data-signout>Sign Out</button>
     </div>
   </header>
+  <nav class="tabs" id="tabs">
+    <button data-tab="list" class="on">Guest List</button>
+    <button data-tab="seat">Seating<em id="tabSeatN"></em></button>
+    <button data-tab="check">Check-in<em id="tabCheckN"></em></button>
+  </nav>
 
-  <main>
+  <main id="tab-list">
     <section class="stats">
       <div class="stat"><small>Responses</small><b id="sTotal">0</b></div>
       <div class="stat hl"><small>Attending (pax)</small><b id="sYes">0</b><em id="sYesSub"></em></div>
@@ -224,9 +350,10 @@
       <select class="in" id="fResp"><option value="">All responses</option><option>Attending</option><option>Not Attending</option></select>
       <select class="in" id="fMeal"><option value="">All main courses</option></select>
       <select class="in" id="fTag"><option value="">All guests</option><option value="vip">VIP (Dato', Dr, etc.)</option><option value="main">Main guests with plus-ones</option><option value="linked">Plus-ones only</option><option value="late">Late RSVPs (after 21 Oct)</option></select>
+      <select class="in" id="fTable"></select>
       <select class="in" id="sort">
         <option value="new">Newest first</option><option value="old">Oldest first</option>
-        <option value="name">Name A–Z</option><option value="branch">Branch</option>
+        <option value="name">Name A–Z</option><option value="branch">Branch</option><option value="table">Table</option>
       </select>
       <div class="actions">
         <button class="btn" id="exportBtn">Export to Excel</button>
@@ -236,10 +363,71 @@
 
     <p class="count" id="count"></p>
     <table>
-      <thead><tr><th>Guest</th><th>Contact</th><th>Branch</th><th>Response</th><th>Main Course</th><th>Checked In</th><th>Responded</th><th></th></tr></thead>
-      <tbody id="rows"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+      <thead><tr><th>Guest</th><th>Contact</th><th>Branch</th><th>Response</th><th>Main Course</th><th>Table</th><th>Checked In</th><th>Responded</th><th></th></tr></thead>
+      <tbody id="rows"><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
     </table>
   </main>
+
+  <!-- ================= Seating ================= -->
+  <main id="tab-seat" class="hidden">
+    <div class="banner hidden" id="seatSel"></div>
+    <div class="seat-grid">
+      <div>
+        <div class="plan-wrap">
+          <svg class="plan" id="plan" viewBox="-24 -26 542 612" role="img" aria-label="Grand Ballroom 3 floor plan"></svg>
+          <div class="legend"><span><i></i>Empty seat</span><span><i class="t"></i>Seated</span><span><i class="h"></i>Arrived</span><span class="mini">Tap a table to see who is seated there.</span></div>
+        </div>
+        <div class="panel" style="margin-top:14px">
+          <div class="head"><h3>Main Course by Table</h3>
+            <div class="seg" id="mealMode"><button data-m="all" class="on">All seated</button><button data-m="here">Arrived only</button></div></div>
+          <div style="overflow-x:auto"><table class="meal-grid" id="mealGrid"></table></div>
+        </div>
+      </div>
+      <div class="side">
+        <div class="panel" id="tblPanel">
+          <div class="head"><h3 id="tblTitle">Select a table</h3><span class="mini" id="tblCount"></span></div>
+          <div id="tblBody" class="mini">Tap any table on the floor plan to see and manage its guests.</div>
+        </div>
+        <div class="panel">
+          <div class="head"><h3>Unassigned Guests <span id="uaN"></span></h3>
+            <button class="btn sm" id="printBtn" title="Print seating lists as a backup">Print lists</button></div>
+          <input class="in" id="uaQ" type="search" placeholder="Search unassigned guests">
+          <label class="chk inline"><input type="checkbox" id="keepParty" checked> Keep parties together</label>
+          <p class="mini" style="margin-top:6px">Tap a guest, then tap a table. On a computer you can also drag a guest onto a table.</p>
+          <div class="glist" id="uaList"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ================= Check-in ================= -->
+  <main id="tab-check" class="hidden">
+    <section class="ci-stats">
+      <div class="stat hl"><small>Arrived (pax)</small><b id="ciArr">0</b><em id="ciArrSub"></em><div class="progress"><i id="ciBar" style="width:0"></i></div></div>
+      <div class="stat"><small>Yet to Arrive</small><b id="ciLeft">0</b></div>
+      <div class="stat"><small>VIPs Arrived</small><b id="ciVip">0</b></div>
+      <div class="stat"><small>Walk-ins</small><b id="ciWalk">0</b></div>
+    </section>
+    <div class="ci-tables" id="ciTables"></div>
+
+    <div class="ci-search">
+      <input class="in" id="ciQ" type="search" placeholder="Type guest name or phone number…" autocomplete="off" autocapitalize="off" spellcheck="false">
+      <button class="btn" id="walkBtn">+ Walk-in</button>
+    </div>
+    <div id="ciDone"></div>
+    <div class="ci-list" id="ciResults"></div>
+
+    <div class="ci-sec">
+      <div class="head"><h3>Yet to Arrive <span id="ciLeftN"></span></h3>
+        <select class="in tsel" id="ciTblFilter"></select></div>
+      <div id="ciPending"></div>
+    </div>
+    <div class="ci-sec">
+      <div class="head"><h3>Recently Arrived</h3></div>
+      <div id="ciRecent"></div>
+    </div>
+  </main>
+
 </div>
 
 <!-- Add / edit modal -->
@@ -253,14 +441,17 @@
     </div>
     <div class="grid2">
       <div class="f"><label class="lbl" for="ePhone">Contact Number</label><input class="in" id="ePhone" type="tel" required></div>
-      <div class="f"><label class="lbl" for="eEmail">Email</label><input class="in" id="eEmail" type="email" required></div>
+      <div class="f"><label class="lbl" for="eEmail">Email</label><input class="in" id="eEmail" type="email" placeholder="Optional for walk-ins"></div>
     </div>
     <div class="grid2">
       <div class="f"><label class="lbl" for="eBranch">Branch</label><select class="in" id="eBranch"></select></div>
       <div class="f"><label class="lbl" for="eResp">Response</label><select class="in" id="eResp"><option>Attending</option><option>Not Attending</option></select></div>
     </div>
     <div id="eGoingWrap">
-      <div class="f"><label class="lbl" for="eMeal">Main Course</label><select class="in" id="eMeal"></select></div>
+      <div class="grid2">
+        <div class="f"><label class="lbl" for="eMeal">Main Course</label><select class="in" id="eMeal"></select></div>
+        <div class="f"><label class="lbl" for="eTable">Table</label><select class="in" id="eTable"></select></div>
+      </div>
     </div>
     <div class="f"><label class="lbl" for="eLink">Plus-one of</label>
       <select class="in" id="eLink"></select>
@@ -375,7 +566,8 @@ $$('[data-signout]').forEach(b => b.addEventListener('click', () => signOut(auth
 /* Sign out after inactivity */
 function resetIdle(){
   clearTimeout(resetIdle.t);
-  if (auth.currentUser) resetIdle.t = setTimeout(() => { signOut(auth); toast('Signed out after 30 minutes of inactivity'); }, IDLE_MINUTES * 60000);
+  const mins = typeof tab !== 'undefined' && tab === 'check' ? 240 : IDLE_MINUTES;   // the check-in desk stays signed in for up to 4 quiet hours
+  if (auth.currentUser) resetIdle.t = setTimeout(() => { signOut(auth); toast(`Signed out after ${mins} minutes of inactivity`); }, mins * 60000);
 }
 ['click','keydown','touchstart','scroll'].forEach(ev => addEventListener(ev, resetIdle, {passive:true}));
 
@@ -385,7 +577,7 @@ function listen(){
   unsub = onSnapshot(q, snap => {
     rows = snap.docs.map(d => ({ id: d.id, ...d.data({ serverTimestamps: 'estimate' }) }));
     $('#liveDot').style.opacity = 1;
-    render();
+    renderAll();
   }, err => { console.error(err); $('#liveDot').style.opacity = .3; toast('Could not load the guest list: ' + err.code, true); });
 }
 
@@ -416,10 +608,10 @@ const waLink = p => { let d = String(p).replace(/\D/g, ''); if (d.startsWith('0'
 
 function filtered(){
   const q = $('#q').value.trim().toLowerCase();
-  const b = $('#fBranch').value, r = $('#fResp').value, m = $('#fMeal').value, s = $('#sort').value, tg = $('#fTag').value;
+  const b = $('#fBranch').value, r = $('#fResp').value, m = $('#fMeal').value, s = $('#sort').value, tg = $('#fTag').value, tb = $('#fTable').value;
   let list = rows.filter(x =>
     (!q || [fullName(x.title, x.name), fullName(x.guest_title, x.guest_name), x.email, x.phone].some(v => String(v || '').toLowerCase().includes(q))) &&
-    (!b || x.branch === b) && (!r || x.attendance === r) &&
+    (!b || x.branch === b) && (!r || x.attendance === r) && (!tb || (tb === 'none' ? !x.table : x.table === tb)) &&
     (!m || x.main_course === m || (x.plus_one && x.guest_main_course === m)) &&
     (!tg || (tg === 'vip' ? (isVip(x.title) || (x.plus_one && isVip(x.guest_title)))
            : tg === 'late' ? isLateRsvp(x)
@@ -429,7 +621,8 @@ function filtered(){
     new: (a, z) => tsMs(z.createdAt) - tsMs(a.createdAt),
     old: (a, z) => tsMs(a.createdAt) - tsMs(z.createdAt),
     name: (a, z) => String(a.name).localeCompare(String(z.name)),
-    branch: (a, z) => String(a.branch).localeCompare(String(z.branch)) || String(a.name).localeCompare(String(z.name))
+    branch: (a, z) => String(a.branch).localeCompare(String(z.branch)) || String(a.name).localeCompare(String(z.name)),
+    table: (a, z) => (TABLES.findIndex(t => t.id === a.table) + 1 || 99) - (TABLES.findIndex(t => t.id === z.table) + 1 || 99) || String(a.name).localeCompare(String(z.name))
   };
   list.sort(by[s]);
   // Keep each party together: plus-ones appear right under their main guest
@@ -476,12 +669,13 @@ function render(){
       <td data-label="Branch">${esc(r.branch)}</td>
       <td data-label="Response"><span class="pill ${r.attendance === 'Attending' ? 'yes' : 'no'}">${r.attendance === 'Attending' ? 'Attending' : 'Declined'}</span></td>
       <td data-label="Main Course">${esc(r.main_course)}${r.plus_one ? `<span class="sub">+1: ${esc(r.guest_main_course)}</span>` : ''}</td>
-      <td data-label="Checked In"><label class="switch" title="Checked in"><input type="checkbox" data-in="${r.id}" ${r.checkedIn ? 'checked' : ''} ${r.attendance !== 'Attending' ? 'disabled' : ''}><span></span></label></td>
+      <td data-label="Table">${r.attendance === 'Attending' ? `<select class="in tsel" data-tsel="${r.id}">${tableOpts(r.table || '')}</select>` : '<span class="mini">—</span>'}</td>
+      <td data-label="Checked In"><label class="switch" title="Checked in"><input type="checkbox" data-in="${r.id}" ${r.checkedIn ? 'checked' : ''} ${r.attendance !== 'Attending' ? 'disabled' : ''}><span></span></label>${r.checkedIn && hhmm(r.checkedInAt) ? `<span class="sub">${hhmm(r.checkedInAt)}</span>` : ''}</td>
       <td data-label="Responded">${fmt(r.createdAt)}</td>
       <td data-label=""><div class="acts">${kids.length ? '' : `<button class="btn sm" data-link="${r.id}" title="${m ? 'Remove the plus-one link' : 'Link as a plus-one of a main guest'}">${m ? 'Unlink' : 'Link'}</button>`}<button class="btn sm" data-edit="${r.id}">Edit</button><button class="btn sm danger" data-del="${r.id}">Remove</button></div></td>
-    </tr>`; }).join('') : `<tr><td colspan="8" class="empty">${rows.length ? 'No guests match these filters.' : 'No responses yet.'}</td></tr>`;
+    </tr>`; }).join('') : `<tr><td colspan="9" class="empty">${rows.length ? 'No guests match these filters.' : 'No responses yet.'}</td></tr>`;
 }
-['#q','#fBranch','#fResp','#fMeal','#fTag','#sort'].forEach(s => $(s).addEventListener('input', render));
+['#q','#fBranch','#fResp','#fMeal','#fTag','#fTable','#sort'].forEach(s => $(s).addEventListener('input', render));
 
 /* Row actions */
 $('#rows').addEventListener('click', e => {
@@ -497,10 +691,12 @@ $('#rows').addEventListener('click', e => {
   if (del) { deletingId = del.dataset.del; const d = byId(deletingId); $('#delName').textContent = d ? fullName(d.title, d.name) : 'This guest'; $('#mDel').classList.remove('hidden'); }
 });
 $('#rows').addEventListener('change', async e => {
+  const ts = e.target.closest('[data-tsel]');
+  if (ts) { const r = byId(ts.dataset.tsel); if (await assignTable([r.id], ts.value)) toast(`${fullName(r.title, r.name)} → ${ts.value ? tableById(ts.value).label : 'Unassigned'}`); else ts.value = r.table || ''; return; }
   const box = e.target.closest('[data-in]'); if (!box) return;
   try {
     await updateDoc(doc(db, 'rsvps', box.dataset.in), {
-      checkedIn: box.checked, checkedInAt: box.checked ? serverTimestamp() : null,
+      checkedIn: box.checked, checkedInAt: box.checked ? serverTimestamp() : null, checkedInBy: box.checked ? auth.currentUser.email : null,
       updatedAt: serverTimestamp(), updatedBy: auth.currentUser.email });
   } catch (err) { box.checked = !box.checked; toast('Could not update check-in', true); }
 });
@@ -525,10 +721,13 @@ function fillLinkOptions(id){
     mains.map(r => `<option value="${r.id}">${esc(fullName(r.title, r.name))} · ${esc(r.branch)}</option>`).join('');
 }
 
-function openEdit(id = null){
+let walkInMode = false;
+function openEdit(id = null, preset = {}){
   editingId = id;
-  const r = id ? rows.find(x => x.id === id) : {};
-  $('#mTitle').textContent = id ? 'Edit Guest' : 'Add Guest';
+  walkInMode = !id && !!preset.walkIn;
+  const r = id ? rows.find(x => x.id === id) : { ...preset, checkedIn: !!preset.walkIn };
+  $('#mTitle').textContent = id ? 'Edit Guest' : walkInMode ? 'Add Walk-in' : 'Add Guest';
+  $('#eTable').innerHTML = tableOpts(r.table || '');
   $('#eTitle').value = r.title || ''; $('#eName').value = r.name || ''; $('#ePhone').value = r.phone || ''; $('#eEmail').value = r.email || '';
   fillLinkOptions(id); $('#eLink').value = r.linkedTo && byId(r.linkedTo) ? r.linkedTo : '';
   $('#eBranch').value = r.branch || BRANCHES[0]; $('#eResp').value = r.attendance || 'Attending';
@@ -549,22 +748,30 @@ $('#editForm').addEventListener('submit', async e => {
     name: $('#eName').value.trim(), phone: $('#ePhone').value.trim(), email: $('#eEmail').value.trim().toLowerCase(),
     branch: $('#eBranch').value, attendance: $('#eResp').value, main_course: going ? $('#eMeal').value : 'N/A',
     notes: $('#eNotes').value.trim().slice(0, 500), checkedIn: going && $('#eIn').checked,
+    table: going ? ($('#eTable').value || null) : null,
     updatedAt: serverTimestamp(), updatedBy: auth.currentUser.email
   };
   if (data.name.length < 3) return msg.textContent = 'Please enter the full name.';
   if (!/^\+?\d{9,13}$/.test(data.phone.replace(/[\s\-()]/g, ''))) return msg.textContent = 'Please enter a valid contact number.';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return msg.textContent = 'Please enter a valid email address.';
+  if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email)) return msg.textContent = 'Please enter a valid email address.';
 
   const btn = $('#eSave'); btn.disabled = true;
   try {
-    const same = r => r.id !== editingId && String(r.email).toLowerCase() === data.email &&
+    const same = r => r.id !== editingId && String(r.email || '').toLowerCase() === data.email &&
       String(r.name).trim().toLowerCase() === data.name.toLowerCase();
     if (rows.some(same)) { msg.textContent = 'This guest (same name and email) is already on the list.'; return; }
     if (!editingId) {
-      const newId = await personId(data.email, data.name);
-      await setDoc(doc(db, 'rsvps', newId), { ...data, source: 'admin', addedBy: auth.currentUser.email, createdAt: serverTimestamp() });
-      toast(`${fullName(data.title, data.name)} added`);
+      const newId = await personId(data.email || ('no-email-' + Date.now()), data.name);
+      const extra = walkInMode ? { walkIn: true } : {};
+      if (data.checkedIn) Object.assign(extra, { checkedInAt: serverTimestamp(), checkedInBy: auth.currentUser.email });
+      if (walkInMode && data.checkedIn) { lastDone = newId; clearTimeout(doneTimer); doneTimer = setTimeout(() => { lastDone = null; renderCheckin(); }, 15000); $('#ciQ').value = ''; }
+      await setDoc(doc(db, 'rsvps', newId), { ...data, ...extra, source: 'admin', addedBy: auth.currentUser.email, createdAt: serverTimestamp() });
+      toast(`${fullName(data.title, data.name)} added${data.table ? ' · ' + tableById(data.table).label : ''}`);
+      renderCheckin();
     } else {
+      const before = byId(editingId);
+      if (data.checkedIn && !before.checkedIn) Object.assign(data, { checkedInAt: serverTimestamp(), checkedInBy: auth.currentUser.email });
+      if (!data.checkedIn && before.checkedIn) Object.assign(data, { checkedInAt: null, checkedInBy: null });
       await updateDoc(doc(db, 'rsvps', editingId), data);   // record keeps its ID, so links stay intact
       toast('Changes saved');
     }
@@ -592,6 +799,354 @@ $$('[data-close]').forEach(b => b.addEventListener('click', () => b.closest('.ov
 $$('.overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.add('hidden'); }));
 addEventListener('keydown', e => { if (e.key === 'Escape') $$('.overlay').forEach(o => o.classList.add('hidden')); });
 
+
+/* =====================================================================
+   EVENT DAY · tables, seating and check-in
+   ===================================================================== */
+// Grand Ballroom 3, cabaret set-up: 5 chairs per round table (from the hotel floor plan).
+// If the hotel adds chairs, change "seats" below. Positions follow the floor plan drawing.
+const TABLES = [
+  { id: '1', label: 'Table 1', short: '1', seats: 5, x: 187, y: 300 },
+  { id: '2', label: 'Table 2', short: '2', seats: 5, x: 187, y: 180 },
+  { id: '3', label: 'Table 3', short: '3', seats: 5, x: 299, y: 370 },
+  { id: '4', label: 'Table 4', short: '4', seats: 5, x: 299, y: 253 },
+  { id: '5', label: 'Table 5', short: '5', seats: 5, x: 299, y: 127 },
+  { id: '6', label: 'Table 6', short: '6', seats: 5, x: 409, y: 300 },
+  { id: '7', label: 'Table 7', short: '7', seats: 5, x: 409, y: 180 }
+];
+const MEAL_SHORT = { '12-Hour Slow-Braised Beef Cheek': 'Beef Cheek', 'Fillet of Seabass': 'Seabass',
+                     'Chicken Roulade': 'Chicken', 'Stuffed Portobello Mushroom': 'Mushroom (V)' };
+const mealShort = m => MEAL_SHORT[m] || (m && m !== 'N/A' ? m : 'No meal selected');
+const tableById = id => TABLES.find(t => t.id === id);
+const tableShort = id => tableById(id)?.short || '';
+const going = () => rows.filter(r => r.attendance === 'Attending');
+const seatedAt = id => going().filter(r => r.table === id);
+const paxOf = list => list.reduce((n, r) => n + pax(r), 0);
+const partyOf = r => { const m = mainOf(r) || r; return [m, ...plusOnesOf(m.id)]; };
+const hhmm = t => t?.toDate ? t.toDate().toLocaleTimeString('en-GB', { timeZone: 'Asia/Kuala_Lumpur', hour: 'numeric', minute: '2-digit', hour12: true }) : '';
+const norm = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[^a-z0-9@.\s]/g, ' ').replace(/\s+/g, ' ').trim();
+const tableOpts = (sel, blank = 'Unassigned') => `<option value="">${blank}</option>` +
+  TABLES.map(t => `<option value="${t.id}" ${sel === t.id ? 'selected' : ''}>${t.label}</option>`).join('');
+
+/* ---------- Tabs ---------- */
+let tab = 'list';
+function setTab(t){
+  tab = t;
+  ['list', 'seat', 'check'].forEach(x => $('#tab-' + x).classList.toggle('hidden', x !== t));
+  $$('#tabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  try { localStorage.setItem('mot-admin-tab', t); } catch (e) {}
+  renderAll(); resetIdle();
+  if (t === 'check') setTimeout(() => $('#ciQ').focus(), 60);
+}
+$$('#tabs button').forEach(b => b.addEventListener('click', () => setTab(b.dataset.tab)));
+
+function renderAll(){
+  render(); renderSeating(); renderCheckin();
+  const g = going();
+  $('#tabSeatN').textContent = g.filter(r => !r.table).length ? `· ${g.filter(r => !r.table).length} to seat` : '';
+  $('#tabCheckN').textContent = `· ${paxOf(g.filter(r => r.checkedIn))}/${paxOf(g)}`;
+}
+
+/* ---------- Writes ---------- */
+const stamp = () => ({ updatedAt: serverTimestamp(), updatedBy: auth.currentUser.email });
+async function assignTable(ids, tableId){
+  const t = tableById(tableId);
+  const moving = ids.map(byId).filter(r => r && r.table !== tableId);
+  if (t) {
+    const after = paxOf(seatedAt(tableId)) + paxOf(moving.filter(r => r.attendance === 'Attending'));
+    if (after > t.seats && !confirm(`${t.label} has ${t.seats} seats and ${paxOf(seatedAt(tableId))} are taken.\nSeat ${after - paxOf(seatedAt(tableId))} more anyway? (${after}/${t.seats})`)) return false;
+  }
+  const b = writeBatch(db);
+  ids.forEach(id => b.update(doc(db, 'rsvps', id), { table: tableId || null, ...stamp() }));
+  try { await b.commit(); return true; } catch (e) { console.error(e); toast('Could not update the seating', true); return false; }
+}
+async function setArrived(ids, on, extra = {}){
+  const b = writeBatch(db);
+  ids.forEach(id => b.update(doc(db, 'rsvps', id), {
+    checkedIn: on, checkedInAt: on ? serverTimestamp() : null, checkedInBy: on ? auth.currentUser.email : null, ...extra, ...stamp() }));
+  try { await b.commit(); return true; } catch (e) { console.error(e); toast('Could not update check-in', true); return false; }
+}
+
+/* ---------- Seating: floor plan ---------- */
+let pick = null;          // { ids:[], label } guests waiting to be seated
+let openTable = null;     // table shown in the side panel
+let mealMode = 'all';
+
+function chairs(t){
+  if (t.kind === 'head') return Array.from({ length: t.seats }, (_, i) => ({ x: t.x + (i - (t.seats - 1) / 2) * 26, y: t.y - 20, a: 0 }));
+  const R = 47, n = t.seats, span = Math.min(160, 36 * (n - 1));
+  return Array.from({ length: n }, (_, i) => { const deg = n === 1 ? 0 : -span / 2 + span / (n - 1) * i;
+    return { x: t.x + Math.cos(deg * Math.PI / 180) * R, y: t.y + Math.sin(deg * Math.PI / 180) * R, a: deg + 90 }; });
+}
+function drawPlan(){
+  const fixed = `
+    <text x="247" y="-10" text-anchor="middle" style="fill:var(--gold-hi);font:400 17px var(--serif)">Grand Ballroom 3</text>
+    <path class="wall" d="M0 0 H140 M167 0 H397 M424 0 H494 V503 H232 M77 503 H0 Z"/>
+    <line class="divider" x1="264" y1="0" x2="264" y2="503"/>
+    <text class="lbl" x="58" y="16">High ceiling (7 m)</text><text class="lbl" x="330" y="16">Low ceiling (3.2 m)</text>
+    <rect class="screen" x="11" y="148" width="10" height="192"/>
+    <text class="lbl" transform="translate(36 244) rotate(90)" text-anchor="middle">Portable LED Screen</text>
+    <rect class="fixture" x="79" y="41" width="60" height="16"/><text class="lbl" x="109" y="72" text-anchor="middle">Head table</text>
+    <rect class="fixture" x="65" y="355" width="24" height="24"/><text class="lbl" x="77" y="350" text-anchor="middle">Rostrum</text>
+    <text class="lbl" x="154" y="526" text-anchor="middle">Entrance</text>
+    <rect class="fixture" x="2" y="545" width="56" height="14"/><text class="lbl" x="30" y="578" text-anchor="middle">Registration</text>`;
+  const tbls = TABLES.map(t => {
+    const seated = seatedAt(t.id), n = paxOf(seated), here = paxOf(seated.filter(r => r.checkedIn));
+    const cls = ['tbl', openTable === t.id ? 'picked' : '', n > t.seats ? 'over' : n === t.seats ? 'full' : ''].join(' ');
+    const ch = chairs(t).map((c, i) => `<rect class="chair ${i < here ? 'here' : i < n ? 'taken' : ''}" x="-7" y="-5" width="14" height="10" rx="3" transform="translate(${c.x.toFixed(1)} ${c.y.toFixed(1)}) rotate(${c.a.toFixed(0)})"/>`).join('');
+    const top = t.kind === 'head'
+      ? `<rect class="top" x="${t.x - 34}" y="${t.y - 9}" width="68" height="18"/><text class="tnum" x="${t.x}" y="${t.y}" style="font-size:11px;font-family:var(--sans);letter-spacing:.12em">HEAD</text>
+         <text class="tcount" x="${t.x}" y="${t.y + 24}">${n}/${t.seats}</text>`
+      : `<circle class="top" cx="${t.x}" cy="${t.y}" r="33"/><text class="tnum" x="${t.x}" y="${t.y - 4}">${t.short}</text>
+         <text class="tcount" x="${t.x}" y="${t.y + 16}">${n}/${t.seats}${n > t.seats ? ' !' : ''}</text>`;
+    return `<g class="${cls}" data-table="${t.id}" tabindex="0" role="button" aria-label="${t.label}, ${n} of ${t.seats} seated">${ch}${top}</g>`;
+  }).join('');
+  $('#plan').innerHTML = fixed + tbls;
+  $('#plan').classList.toggle('assigning', !!pick);
+}
+
+function renderSeating(){
+  if (!$('#plan')) return;
+  drawPlan();
+  // banner while choosing a table
+  const sb = $('#seatSel');
+  sb.classList.toggle('hidden', !pick);
+  if (pick) sb.innerHTML = `<span>Seating <b>${esc(pick.label)}</b> — now tap a table.</span><button class="btn sm" id="pickUnseat">Make unassigned</button><button class="btn sm" id="pickCancel">Cancel</button>`;
+
+  // unassigned list (grouped by party)
+  const q = norm($('#uaQ').value);
+  const un = going().filter(r => !r.table);
+  const heads = []; const seen = new Set();
+  un.forEach(r => { const m = mainOf(r); const h = m && !m.table && m.attendance === 'Attending' ? m : r; if (!seen.has(h.id)) { seen.add(h.id); heads.push(h); } });
+  heads.sort((a, z) => String(a.name).localeCompare(String(z.name)));
+  const shown = heads.filter(h => !q || [h, ...plusOnesOf(h.id)].some(r => norm(fullName(r.title, r.name)).includes(q)));
+  $('#uaN').textContent = `(${paxOf(un)})`;
+  $('#uaList').innerHTML = shown.length ? shown.map(h => {
+    const kids = plusOnesOf(h.id).filter(k => !k.table && k.attendance === 'Attending');
+    const on = pick && pick.ids.includes(h.id);
+    return `<div class="gi ${on ? 'on' : ''}" draggable="true" data-pick="${h.id}">
+      <div class="gn">${titleHtml(h.title, h.name)}${isVip(h.title) ? '<span class="vip">VIP</span>' : ''}
+        <small>${esc(h.branch)} · ${esc(mealShort(h.main_course))}</small>
+        ${kids.length ? `<span class="kids">+ ${kids.map(k => titleHtml(k.title, k.name)).join(', ')}</span>` : ''}</div>
+      ${kids.length ? `<span class="mini">Party of ${kids.length + 1}</span>` : ''}</div>`;
+  }).join('') : `<p class="mini" style="padding:10px 2px">${un.length ? 'No match.' : 'Everyone attending has a table. 🎉'}</p>`;
+
+  // table detail
+  const t = tableById(openTable);
+  if (t) {
+    const seated = seatedAt(t.id).sort((a, z) => String(a.name).localeCompare(String(z.name)));
+    $('#tblTitle').textContent = t.label;
+    $('#tblCount').textContent = `${paxOf(seated)}/${t.seats} seated · ${paxOf(seated.filter(r => r.checkedIn))} arrived`;
+    const tally = MEALS.map(m => [mealShort(m), seated.filter(r => r.main_course === m).length]).filter(x => x[1]);
+    $('#tblBody').innerHTML = (seated.length ? `<div class="glist" style="max-height:none;margin-top:4px">` + seated.map(r => `
+      <div class="gi" style="cursor:default">
+        <div class="gn">${titleHtml(r.title, r.name)}${isVip(r.title) ? '<span class="vip">VIP</span>' : ''}
+          <small>${esc(mealShort(r.main_course))} · ${esc(r.branch)}${mainOf(r) ? ' · plus-one of ' + esc(fullName(mainOf(r).title, mainOf(r).name)) : ''}</small>
+          ${r.notes ? `<small style="color:var(--gold-hi);font-style:italic">${esc(r.notes)}</small>` : ''}</div>
+        ${r.checkedIn ? `<span class="ok">✓ ${hhmm(r.checkedInAt) || 'Arrived'}</span>` : ''}
+        <div class="row-btns"><button class="btn sm" data-move="${r.id}">Move</button><button class="btn sm" data-unseat="${r.id}">Remove</button></div>
+      </div>`).join('') + `</div>` : `<p class="mini" style="padding:6px 0">No one seated here yet. Tap a guest under Unassigned, then tap this table.</p>`)
+      + (tally.length ? `<p class="mini" style="margin-top:12px"><b style="color:var(--gold)">Meals:</b> ${tally.map(([m, n]) => `${n} × ${esc(m)}`).join(' · ')}</p>` : '');
+  } else {
+    $('#tblTitle').textContent = 'Select a table'; $('#tblCount').textContent = '';
+    $('#tblBody').innerHTML = 'Tap any table on the floor plan to see and manage its guests.';
+  }
+
+  // meals by table
+  const src = r => mealMode === 'here' ? r.checkedIn : true;
+  const cols = MEALS;
+  const line = (label, list) => { const L = list.filter(src); const cells = cols.map(m => L.filter(r => r.main_course === m).length);
+    const other = L.filter(r => !cols.includes(r.main_course)).length;
+    return `<td>${label}</td>${cells.map(c => `<td>${c || '–'}</td>`).join('')}<td>${other || '–'}</td><td><b>${L.length}</b></td>`; };
+  $('#mealGrid').innerHTML = `<tr><th>Table</th>${cols.map(m => `<th>${esc(mealShort(m))}</th>`).join('')}<th>None</th><th>Total</th></tr>` +
+    TABLES.map(t => `<tr>${line(t.label, seatedAt(t.id))}</tr>`).join('') +
+    `<tr>${line('Unassigned', going().filter(r => !r.table))}</tr>` +
+    `<tr class="tot">${line('Total', going())}</tr>`;
+}
+
+function pickGuest(id, soft = false){
+  const r = byId(id); if (!r) return;
+  if (!soft && pick && pick.ids.includes(id)) { pick = null; renderSeating(); return; }
+  const ids = $('#keepParty').checked ? partyOf(r).filter(x => x.attendance === 'Attending').map(x => x.id) : [id];
+  pick = { ids, label: fullName(r.title, r.name) + (ids.length > 1 ? ` + ${ids.length - 1}` : '') };
+  if (!soft) return renderSeating();
+  // while dragging, only update highlights (re-drawing the list would cancel the drag)
+  $$('#uaList [data-pick]').forEach(x => x.classList.toggle('on', pick.ids.includes(x.dataset.pick)));
+  $('#plan').classList.add('assigning');
+  $('#seatSel').classList.remove('hidden');
+  $('#seatSel').innerHTML = `<span>Seating <b>${esc(pick.label)}</b> — drop on a table.</span><button class="btn sm" id="pickCancel">Cancel</button>`;
+}
+async function dropOn(tableId){
+  if (!pick) return;
+  const ids = pick.ids, label = pick.label;
+  pick = null;
+  if (await assignTable(ids, tableId)) { toast(`${label} → ${tableById(tableId)?.label || 'Unassigned'}`); openTable = tableId || openTable; }
+  renderSeating();
+}
+
+$('#plan').addEventListener('click', e => {
+  const g = e.target.closest('.tbl'); if (!g) return;
+  if (pick) dropOn(g.dataset.table); else { openTable = g.dataset.table; renderSeating(); }
+});
+$('#plan').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.closest('.tbl')) { e.preventDefault(); e.target.closest('.tbl').dispatchEvent(new MouseEvent('click', { bubbles: true })); } });
+$('#plan').addEventListener('dragover', e => { const g = e.target.closest('.tbl'); if (g) { e.preventDefault(); $$('.tbl.drop').forEach(x => x !== g && x.classList.remove('drop')); g.classList.add('drop'); } });
+$('#plan').addEventListener('dragleave', e => { const g = e.target.closest('.tbl'); if (g && !g.contains(e.relatedTarget)) g.classList.remove('drop'); });
+$('#plan').addEventListener('drop', e => { const g = e.target.closest('.tbl'); if (g) { e.preventDefault(); dropOn(g.dataset.table); } });
+$('#uaList').addEventListener('click', e => { const it = e.target.closest('[data-pick]'); if (it) pickGuest(it.dataset.pick); });
+$('#uaList').addEventListener('dragstart', e => { const it = e.target.closest('[data-pick]'); if (!it) return;
+  e.dataTransfer.setData('text/plain', it.dataset.pick); e.dataTransfer.effectAllowed = 'move'; pickGuest(it.dataset.pick, true); });
+$('#uaList').addEventListener('dragend', () => { $$('.tbl.drop').forEach(x => x.classList.remove('drop')); if (pick) renderSeating(); });
+$('#uaQ').addEventListener('input', renderSeating);
+$('#seatSel').addEventListener('click', e => {
+  if (e.target.id === 'pickCancel') { pick = null; renderSeating(); }
+  if (e.target.id === 'pickUnseat') dropOn('');
+});
+$('#tblBody').addEventListener('click', async e => {
+  const mv = e.target.closest('[data-move]'), un = e.target.closest('[data-unseat]');
+  if (mv) { const r = byId(mv.dataset.move); pick = { ids: [r.id], label: fullName(r.title, r.name) }; renderSeating(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  if (un) { const r = byId(un.dataset.unseat); if (await assignTable([r.id], '')) toast(`${fullName(r.title, r.name)} removed from ${tableById(openTable)?.label}`); }
+});
+$('#mealMode').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; mealMode = b.dataset.m;
+  $$('#mealMode button').forEach(x => x.classList.toggle('on', x === b)); renderSeating(); });
+addEventListener('keydown', e => { if (e.key === 'Escape' && pick) { pick = null; renderSeating(); } });
+
+/* ---------- Check-in ---------- */
+let lastDone = null, doneTimer = null;
+function matchGuest(r, q){
+  const digits = q.replace(/\D/g, '');
+  if (digits.length >= 3 && String(r.phone || '').replace(/\D/g, '').includes(digits)) return true;
+  const toks = norm(q).split(' ').filter(Boolean); if (!toks.length) return false;
+  const hay = norm(fullName(r.title, r.name) + ' ' + (r.email || ''));
+  return toks.every(t => hay.includes(t));
+}
+function ciCard(r){
+  const t = tableById(r.table), party = partyOf(r).filter(x => x.id !== r.id);
+  const declined = r.attendance !== 'Attending';
+  const waiting = partyOf(r).filter(x => !x.checkedIn && x.attendance === 'Attending');
+  return `<div class="ci-card ${r.checkedIn ? 'arrived' : ''}">
+    <div>
+      <div class="nm">${titleHtml(r.title, r.name)}${isVip(r.title) ? '<span class="vip">VIP</span>' : ''}${r.walkIn ? '<span class="tag">Walk-in</span>' : ''}</div>
+      <div class="meta"><b>${esc(mealShort(r.main_course))}</b> · ${esc(r.branch)} · ${esc(r.phone)}
+        ${party.length ? `<br>With ${party.map(p => `${titleHtml(p.title, p.name)} ${p.checkedIn ? '<span style="color:var(--ok)">✓</span>' : '<span class="mini">(not yet)</span>'}`).join(', ')}` : ''}</div>
+      ${declined ? `<span class="warn bad">RSVP'd as not attending — no meal selected</span>` : ''}
+      ${r.notes ? `<span class="warn">Note: ${esc(r.notes)}</span>` : ''}
+    </div>
+    <div class="ci-tbl"><small>Table</small>${t ? `<b>${t.short}</b>` : `<b class="none">—</b><select class="in tsel" data-ci-table="${r.id}" style="min-width:0;width:100%">${tableOpts('', 'Assign…')}</select>`}</div>
+    <div class="ci-act">
+      ${r.checkedIn
+        ? `<div class="ci-arr">✓ Arrived ${hhmm(r.checkedInAt)}</div><button class="btn sm" data-undo="${r.id}">Undo</button>`
+        : `<button class="btn go" data-in1="${r.id}">${declined ? 'Check in anyway' : 'Check in'}</button>
+           ${waiting.length > 1 ? `<button class="btn" data-inall="${r.id}">Check in party (${waiting.length})</button>` : ''}`}
+    </div></div>`;
+}
+function renderCheckin(){
+  if (!$('#ciResults')) return;
+  const g = going(), here = g.filter(r => r.checkedIn), total = paxOf(g), arrived = paxOf(here);
+  $('#ciArr').textContent = `${arrived}`;
+  $('#ciArrSub').textContent = `of ${total} expected · ${total ? Math.round(arrived / total * 100) : 0}%`;
+  $('#ciBar').style.width = (total ? arrived / total * 100 : 0) + '%';
+  $('#ciLeft').textContent = total - arrived;
+  const vips = g.filter(r => isVip(r.title));
+  $('#ciVip').textContent = `${vips.filter(r => r.checkedIn).length}/${vips.length}`;
+  $('#ciWalk').textContent = g.filter(r => r.walkIn).length;
+  $('#ciTables').innerHTML = TABLES.map(t => { const s = seatedAt(t.id), n = paxOf(s), h = paxOf(s.filter(r => r.checkedIn));
+    return `<span class="${n && h === n ? 'done' : ''}">T${t.short} <b>${h}/${n}</b></span>`; }).join('') +
+    (g.some(r => !r.table) ? `<span>No table <b>${paxOf(g.filter(r => !r.table && r.checkedIn))}/${paxOf(g.filter(r => !r.table))}</b></span>` : '');
+
+  // last check-in banner
+  const d = lastDone && byId(lastDone);
+  $('#ciDone').innerHTML = d && d.checkedIn ? `<div class="ci-done">
+      <div class="big"><small>TABLE</small>${tableById(d.table)?.short || `—<select class="in tsel" data-ci-table="${d.id}" style="display:block;min-width:0;width:100%;margin-top:6px;font-size:12px">${tableOpts('', 'Assign…')}</select>`}</div>
+      <div class="who">✓ Welcome, ${titleHtml(d.title, d.name)}${isVip(d.title) ? '<span class="vip">VIP</span>' : ''}
+        <small>${esc(mealShort(d.main_course))}${partyOf(d).length > 1 ? ' · party of ' + partyOf(d).length : ''}${d.notes ? ' · Note: ' + esc(d.notes) : ''}</small></div></div>` : '';
+
+  // search results
+  const q = $('#ciQ').value.trim();
+  if (q) {
+    const res = rows.filter(r => matchGuest(r, q))
+      .sort((a, z) => (a.attendance !== 'Attending') - (z.attendance !== 'Attending') || (!!a.checkedIn - !!z.checkedIn) || String(a.name).localeCompare(String(z.name)))
+      .slice(0, 12);
+    $('#ciResults').innerHTML = res.length ? res.map(ciCard).join('')
+      : `<div class="panel" style="text-align:center"><p class="mini" style="margin-bottom:12px">No guest found for “${esc(q)}”. Try part of the name, or the last 4 digits of their phone.</p>
+         <button class="btn" data-walkin="1">+ Add “${esc(q)}” as a walk-in</button></div>`;
+  } else $('#ciResults').innerHTML = '';
+
+  // yet to arrive
+  const tf = $('#ciTblFilter').value;
+  const pend = g.filter(r => !r.checkedIn && (!tf || (tf === 'none' ? !r.table : r.table === tf)))
+    .sort((a, z) => (TABLES.findIndex(t => t.id === a.table) + 1 || 99) - (TABLES.findIndex(t => t.id === z.table) + 1 || 99) || String(a.name).localeCompare(String(z.name)));
+  $('#ciLeftN').textContent = `(${paxOf(pend)})`;
+  $('#ciPending').innerHTML = pend.length ? pend.map(r => `<div class="ci-row">
+      <span class="tchip">${r.table ? 'T' + r.table : '—'}</span>
+      <div>${titleHtml(r.title, r.name)}${isVip(r.title) ? '<span class="vip">VIP</span>' : ''}<small>${esc(mealShort(r.main_course))} · ${esc(r.branch)} · <a href="tel:${esc(r.phone)}" style="color:var(--muted)">${esc(r.phone)}</a></small></div>
+      <button class="btn sm" data-in1="${r.id}">Check in</button></div>`).join('')
+    : `<p class="mini" style="padding:10px 0">${g.length ? 'Everyone here has arrived. ✨' : 'No attending guests yet.'}</p>`;
+
+  // recently arrived
+  const recent = here.slice().sort((a, z) => tsMs(z.checkedInAt) - tsMs(a.checkedInAt)).slice(0, 8);
+  $('#ciRecent').innerHTML = recent.length ? recent.map(r => `<div class="ci-row">
+      <span class="tchip">${r.table ? 'T' + r.table : '—'}</span>
+      <div>${titleHtml(r.title, r.name)}<small>${hhmm(r.checkedInAt) || 'Just now'}${r.checkedInBy ? ' · by ' + esc(r.checkedInBy.split('@')[0]) : ''}</small></div>
+      <button class="btn sm" data-undo="${r.id}">Undo</button></div>`).join('')
+    : `<p class="mini" style="padding:10px 0">No arrivals yet.</p>`;
+}
+$('#ciTblFilter').innerHTML = `<option value="">All tables</option>` + TABLES.map(t => `<option value="${t.id}">${t.label}</option>`).join('') + `<option value="none">No table</option>`;
+$('#ciTblFilter').addEventListener('change', renderCheckin);
+$('#ciQ').addEventListener('input', renderCheckin);
+$('#ciQ').addEventListener('keydown', e => {   // Enter checks in the only matching guest
+  if (e.key !== 'Enter') return;
+  const q = $('#ciQ').value.trim(); if (!q) return;
+  const res = rows.filter(r => matchGuest(r, q) && !r.checkedIn && r.attendance === 'Attending');
+  if (res.length === 1) doCheckIn([res[0].id], res[0].id);
+});
+async function doCheckIn(ids, mainId, extra){
+  if (await setArrived(ids, true, extra)) {
+    lastDone = mainId; clearTimeout(doneTimer); doneTimer = setTimeout(() => { lastDone = null; renderCheckin(); }, 15000);
+    $('#ciQ').value = ''; renderCheckin(); $('#ciQ').focus();
+    const top = $('#ciQ').getBoundingClientRect().top + scrollY - (innerWidth > 640 ? 130 : 12);
+    if (Math.abs(scrollY - top) > 40) window.scrollTo({ top, behavior: 'smooth' });
+  }
+}
+$('#tab-check').addEventListener('click', async e => {
+  const one = e.target.closest('[data-in1]'), all = e.target.closest('[data-inall]'), undo = e.target.closest('[data-undo]'), wk = e.target.closest('[data-walkin]');
+  if (one) { const r = byId(one.dataset.in1); doCheckIn([r.id], r.id, r.attendance !== 'Attending' ? { attendance: 'Attending' } : {}); }
+  if (all) { const r = byId(all.dataset.inall); doCheckIn(partyOf(r).filter(x => !x.checkedIn && x.attendance === 'Attending').map(x => x.id), r.id); }
+  if (undo) { const r = byId(undo.dataset.undo); if (await setArrived([r.id], false)) { if (lastDone === r.id) lastDone = null; toast(`${fullName(r.title, r.name)} marked as not arrived`); } }
+  if (wk) openEdit(null, { walkIn: true, name: $('#ciQ').value.trim() });
+});
+$('#tab-check').addEventListener('change', async e => {
+  const s = e.target.closest('[data-ci-table]'); if (!s || !s.value) return;
+  if (await assignTable([s.dataset.ciTable], s.value)) toast(`Seated at ${tableById(s.value).label}`);
+});
+$('#walkBtn').addEventListener('click', () => openEdit(null, { walkIn: true, name: $('#ciQ').value.trim() }));
+
+/* ---------- Print backup lists ---------- */
+$('#printBtn').addEventListener('click', () => {
+  const w = window.open('', '_blank'); if (!w) return toast('Please allow pop-ups to print', true);
+  const g = going().slice().sort((a, z) => String(a.name).localeCompare(String(z.name)));
+  const tl = id => id ? (tableById(id)?.label || id) : '—';
+  const alpha = g.map(r => `<tr><td>${esc(fullName(r.title, r.name))}${isVip(r.title) ? ' <b>(VIP)</b>' : ''}</td><td class="c"><b>${esc(tl(r.table).replace('Table ', ''))}</b></td><td>${esc(mealShort(r.main_course))}</td><td>${esc(r.branch)}</td><td>${esc(r.phone)}</td><td class="c">☐</td></tr>`).join('');
+  const perTable = [...TABLES.map(t => [t.label, seatedAt(t.id), t.seats]), ['Unassigned', g.filter(r => !r.table), '']].filter(x => x[1].length).map(([label, list, seats]) => {
+    const tally = MEALS.map(m => [mealShort(m), list.filter(r => r.main_course === m).length]).filter(x => x[1]).map(([m, n]) => `${n} × ${esc(m)}`).join(' · ');
+    return `<div class="tb"><h2>${esc(label)} <span>${paxOf(list)}${seats ? '/' + seats : ''} guests</span></h2><table>${list.map(r => `<tr><td>${esc(fullName(r.title, r.name))}${isVip(r.title) ? ' <b>(VIP)</b>' : ''}</td><td>${esc(mealShort(r.main_course))}</td><td>${esc(r.notes || '')}</td></tr>`).join('')}</table><p>${tally}</p></div>`;
+  }).join('');
+  w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Seating lists · Market Outlook Talk</title><style>
+    body{font:12px/1.45 Arial,sans-serif;color:#111;margin:24px} h1{font-size:18px;margin:0 0 4px} .s{color:#555;margin:0 0 14px}
+    table{width:100%;border-collapse:collapse;margin-bottom:10px} th,td{border-bottom:1px solid #ccc;padding:5px 6px;text-align:left} th{background:#eee}
+    .c{text-align:center} .pb{page-break-before:always} .tb{break-inside:avoid;margin-bottom:18px} h2{font-size:15px;margin:0 0 6px;border-bottom:2px solid #111;padding-bottom:3px} h2 span{font-weight:400;color:#555;font-size:12px}
+    .tb p{margin:4px 0 0;color:#333} @media print{body{margin:10mm}}</style></head><body>
+    <h1>Market Outlook Talk · Guest List A–Z</h1><p class="s">Wednesday 28 October 2026 · DoubleTree by Hilton Johor Bahru · printed ${new Date().toLocaleString('en-GB', { timeZone: 'Asia/Kuala_Lumpur' })} · ${paxOf(g)} guests</p>
+    <table><tr><th>Guest</th><th class="c">Table</th><th>Main course</th><th>Branch</th><th>Phone</th><th class="c">Arrived</th></tr>${alpha}</table>
+    <div class="pb"></div><h1>Seating by Table</h1><p class="s">For the banquet captain</p>${perTable}
+    <script>setTimeout(function(){window.print()},300)<\/script></body></html>`);
+  w.document.close();
+});
+
+$('#fTable').innerHTML = `<option value="">All tables</option>` + TABLES.map(t => `<option value="${t.id}">${t.label}</option>`).join('') + `<option value="none">No table</option>`;
+
+// restore last tab
+try { const t = localStorage.getItem('mot-admin-tab'); if (t && t !== 'list') setTab(t); } catch (e) {}
+
 /* ---------------- Export to Excel ---------------- */
 $('#exportBtn').addEventListener('click', () => {
   if (!window.XLSX) return toast('Excel export is still loading, try again in a second', true);
@@ -603,11 +1158,12 @@ $('#exportBtn').addEventListener('click', () => {
   const guests = list.map(r => ({
     'Title': r.title || '', 'Full Name': r.name, 'VIP': isVip(r.title) ? 'Yes' : '', 'Contact Number': r.phone, 'Email': r.email, 'Branch': r.branch,
     'Response': r.attendance, 'Main Course': r.main_course,
+    'Table': r.attendance === 'Attending' && r.table ? (tableById(r.table)?.label || r.table) : '',
     'Plus-One Of': mainOf(r) ? fullName(mainOf(r).title, mainOf(r).name) : '',
     'Party Size': mainOf(r) ? '' : 1 + plusOnesOf(r.id).length,
     ...(legacy ? { 'Old-form Guest': r.plus_one ? `${fullName(r.guest_title, r.guest_name)} (${r.guest_main_course})` : '' } : {}),
     'Late RSVP': isLateRsvp(r) ? 'Yes' : '',
-    'Checked In': r.checkedIn ? 'Yes' : 'No',
+    'Checked In': r.checkedIn ? 'Yes' : 'No', 'Arrived At': r.checkedIn ? hhmm(r.checkedInAt) : '', 'Walk-in': r.walkIn ? 'Yes' : '',
     'Notes': r.notes || '', 'Source': r.source === 'admin' ? 'Added by team' : 'Website', 'Responded At': fmt(r.createdAt)
   }));
   const yes = rows.filter(r => r.attendance === 'Attending');
@@ -622,11 +1178,22 @@ $('#exportBtn').addEventListener('click', () => {
   ];
   const wb = XLSX.utils.book_new();
   const ws1 = XLSX.utils.json_to_sheet(guests);
-  ws1['!cols'] = [10, 28, 6, 16, 30, 14, 14, 32, 30, 10, ...(legacy ? [40] : []), 10, 11, 36, 15, 18].map(w => ({ wch: w }));
+  ws1['!cols'] = [10, 28, 6, 16, 30, 14, 14, 32, 12, 30, 10, ...(legacy ? [40] : []), 10, 11, 11, 9, 36, 15, 18].map(w => ({ wch: w }));
   const ws2 = XLSX.utils.aoa_to_sheet(summary);
   ws2['!cols'] = [{ wch: 40 }, { wch: 10 }];
   XLSX.utils.book_append_sheet(wb, ws2, 'Summary');
   XLSX.utils.book_append_sheet(wb, ws1, 'Guest List');
+  // By Table sheet for the banquet team
+  const byT = [];
+  [...TABLES.map(t => [t.label, seatedAt(t.id)]), ['Unassigned', going().filter(r => !r.table)]].forEach(([label, list]) => {
+    if (!list.length) return;
+    list.slice().sort((a, z) => String(a.name).localeCompare(String(z.name))).forEach(r => byT.push({
+      'Table': label, 'Guest': fullName(r.title, r.name), 'VIP': isVip(r.title) ? 'Yes' : '', 'Main Course': r.main_course,
+      'Notes': r.notes || '', 'Arrived': r.checkedIn ? (hhmm(r.checkedInAt) || 'Yes') : '' }));
+  });
+  const ws3 = XLSX.utils.json_to_sheet(byT);
+  ws3['!cols'] = [12, 32, 6, 32, 36, 10].map(w => ({ wch: w }));
+  XLSX.utils.book_append_sheet(wb, ws3, 'By Table');
   const stamp = new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Kuala_Lumpur' });
   XLSX.writeFile(wb, `Market-Outlook-JB-Guest-List-${stamp}.xlsx`);
 });
