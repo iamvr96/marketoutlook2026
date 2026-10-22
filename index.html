@@ -279,8 +279,8 @@
           </div>
           <div class="field underline" id="g-name">
             <label class="label" for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="As per NRIC / Passport" autocomplete="name">
-            <p class="err">Please enter your full name.</p>
+            <input type="text" id="name" name="name" placeholder="e.g. Ahmad bin Ismail" autocomplete="name">
+            <p class="err">Please enter your full name (not your IC number).</p>
           </div>
         </div>
 
@@ -375,11 +375,11 @@ const CONFIG = {
   EVENT_END:   "2026-10-28T22:00:00+08:00",
   VENUE: "DoubleTree by Hilton Johor Bahru",
   // The date clients see ("Kindly respond by …")
-  DISPLAY_DEADLINE: "2026-10-21T23:59:59+08:00",
+  DISPLAY_DEADLINE: "2026-10-22T23:59:59+08:00",
   // When the form actually stops accepting responses (late RSVPs are accepted quietly until then)
   RSVP_DEADLINE: "2026-10-27T23:59:59+08:00",
   // After this, the menu is confirmed with the hotel and late RSVPs are served the Chicken Roulade
-  MENU_CUTOFF: "2026-10-22T00:00:00+08:00",
+  MENU_CUTOFF: "2026-10-23T00:00:00+08:00",
   LATE_MAIN: "Chicken Roulade"
 };
 /* ================================================================== */
@@ -451,7 +451,7 @@ applyMenuCutoff();
 /* Validation */
 const checks = {
   'g-attend':  () => attending() !== null,
-  'g-name':    () => form.name.value.trim().length >= 3,
+  'g-name':    () => { const v = form.name.value.trim(); return v.length >= 3 && /[a-z]/i.test(v) && !/\d{5,}/.test(v.replace(/[\s-]/g, '')); },
   'g-phone':   () => /^\+?\d{9,13}$/.test(form.phone.value.replace(/[\s\-()]/g,'')),
   'g-email':   () => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim()),
   'g-branch':  () => form.branch.value !== '',
